@@ -4,25 +4,15 @@ import React, { useState } from 'react';
 import { 
   User,
   LogOut,
-  Calendar,
-  MessageCircle,
-  Clock,
   Users,
-  ChevronRight
+  Briefcase,
+  Building,
+  Mail,
+  Calendar,
+  Search,
+  Phone,
+  Star
 } from 'lucide-react';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
 import UserDetailsModal from './UserDetailsModal';
 
 // Mock data for development
@@ -36,9 +26,12 @@ const MOCK_DATA = {
     { 
       id: 1, 
       name: 'John Doe',
-      email: 'john.doe@email.com', 
+      email: 'john.doe@email.com',
+      phone: '+1 (555) 123-4567',
+      role: 'Senior Frontend Developer',
       jobId: 1,
       status: 'In Progress',
+      rating: 4.5,
       rounds: [
         { 
           id: 1, 
@@ -61,9 +54,12 @@ const MOCK_DATA = {
     { 
       id: 2, 
       name: 'Jane Smith',
-      email: 'jane.smith@email.com', 
+      email: 'jane.smith@email.com',
+      phone: '+1 (555) 765-4321',
+      role: 'Product Manager',
       jobId: 1,
       status: 'Scheduled',
+      rating: 3.8,
       rounds: [
         { 
           id: 1, 
@@ -91,15 +87,11 @@ const MOCK_DATA = {
 };
 
 const Dashboard = () => {
-  // State management
   const [selectedJob, setSelectedJob] = useState(null);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-  const [isInterviewActive, setIsInterviewActive] = useState(false);
-  const [selectedRoundType, setSelectedRoundType] = useState('');
-  const [selectedInterviewer, setSelectedInterviewer] = useState('');
   const [showUserModal, setShowUserModal] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
-  // Handler functions
   const handleJobSelect = (job) => {
     setSelectedJob(job);
     setSelectedCandidate(null);
@@ -110,33 +102,30 @@ const Dashboard = () => {
     setShowUserModal(true);
   };
 
-  const handleStartInterview = () => {
-    setIsInterviewActive(true);
-  };
+  const filteredCandidates = MOCK_DATA.candidates
+    .filter(c => selectedJob ? c.jobId === selectedJob.id : true)
+    .filter(c => 
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-  const handleEndInterview = () => {
-    setIsInterviewActive(false);
-  };
-
-  const handleScheduleInterview = () => {
-    if (!selectedRoundType || !selectedInterviewer) {
-      alert('Please select both round type and interviewer');
-      return;
-    }
-    // Here you would typically make an API call to schedule the interview
-    alert('Interview scheduled successfully!');
+  const getRoundRating = (rounds) => {
+    const lastRound = rounds[rounds.length - 1];
+    return lastRound.status === 'Passed' ? '4.5/5' : 'Pending';
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
+      <header className="bg-white shadow-sm fixed w-full top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
           <div className="text-2xl font-bold text-blue-600">ConvinEdge</div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
-              <User className="w-5 h-5" />
-              <span className="text-sm">Sarah Wilson</span>
+              <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                <User className="w-5 h-5 text-blue-600" />
+              </div>
+              <span className="text-sm font-medium">Sarah Wilson</span>
             </div>
             <LogOut className="w-5 h-5 cursor-pointer text-gray-500 hover:text-gray-700" />
           </div>
@@ -144,222 +133,136 @@ const Dashboard = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 py-6">
-        <div className="grid grid-cols-12 gap-6">
-          {/* Jobs List */}
-          <div className="col-span-3">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Open Positions</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  {MOCK_DATA.jobs.map(job => (
-                    <div
-                      key={job.id}
-                      onClick={() => handleJobSelect(job)}
-                      className={`p-3 rounded-lg cursor-pointer transition-colors ${
-                        selectedJob?.id === job.id 
-                          ? 'bg-blue-50 border border-blue-200' 
-                          : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <div className="font-medium">{job.title}</div>
-                      <div className="text-sm text-gray-500 flex items-center justify-between">
-                        <span>{job.department}</span>
-                        <span className="flex items-center">
-                          <Users className="w-4 h-4 mr-1" />
-                          {job.openings}
-                        </span>
+      <main className="pt-20 pb-6">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-12 gap-6">
+            {/* Jobs List */}
+            <div className="col-span-3 bg-white rounded-lg shadow-sm border h-[calc(100vh-7rem)] sticky top-20">
+              <div className="p-4 border-b">
+                <h2 className="text-lg font-semibold flex items-center">
+                  <Briefcase className="w-5 h-5 mr-2 text-blue-600" />
+                  Open Positions
+                </h2>
+              </div>
+              <div className="overflow-y-auto h-[calc(100%-4rem)]">
+                {MOCK_DATA.jobs.map(job => (
+                  <div
+                    key={job.id}
+                    onClick={() => handleJobSelect(job)}
+                    className={`p-4 cursor-pointer transition-colors border-l-4 ${
+                      selectedJob?.id === job.id 
+                        ? 'bg-blue-50 border-l-blue-500' 
+                        : 'border-l-transparent hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="font-medium text-gray-900">{job.title}</div>
+                    <div className="mt-1 flex items-center justify-between text-sm text-gray-500">
+                      <div className="flex items-center">
+                        <Building className="w-4 h-4 mr-1" />
+                        {job.department}
+                      </div>
+                      <div className="flex items-center">
+                        <Users className="w-4 h-4 mr-1" />
+                        {job.openings}
                       </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
+                  </div>
+                ))}
+              </div>
+            </div>
 
-          {/* Candidates List */}
-          <div className="col-span-4">
-            {selectedJob && (
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-lg">Candidates</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {MOCK_DATA.candidates
-                    .filter(c => c.jobId === selectedJob.id)
-                    .map(candidate => (
+            {/* Candidates List - Updated */}
+            <div className="col-span-9">
+              <div className="bg-white rounded-lg shadow-sm border">
+                <div className="p-4">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-lg font-semibold flex items-center">
+                      <Users className="w-5 h-5 mr-2 text-blue-600" />
+                      Candidates {selectedJob && `for ${selectedJob.title}`}
+                    </h2>
+                    <div className="relative">
+                      <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder="Search candidates..."
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="pl-10 pr-4 py-2 border rounded-lg w-64 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Table Header */}
+                  <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-500">
+                    <div className="col-span-3">Candidate</div>
+                    <div className="col-span-2">Role</div>
+                    <div className="col-span-2">Status</div>
+                    <div className="col-span-3">Contact</div>
+                    <div className="col-span-2">Last Round</div>
+                  </div>
+
+                  {/* Candidates List */}
+                  <div className="divide-y">
+                    {filteredCandidates.map(candidate => (
                       <div
                         key={candidate.id}
                         onClick={() => handleCandidateSelect(candidate)}
-                        className={`p-4 border-b last:border-b-0 cursor-pointer hover:bg-gray-50`}
+                        className="grid grid-cols-12 gap-4 px-4 py-3 items-center hover:bg-gray-50 cursor-pointer transition-colors"
                       >
-                        <div className="flex justify-between items-start">
-                          <div>
-                            <div className="font-medium">{candidate.name}</div>
-                            <div className="text-sm text-gray-500">
+                        {/* Candidate Name & Image */}
+                        <div className="col-span-3 flex items-center space-x-3">
+                          <div className="w-10 h-10 rounded-full bg-blue-100 flex-shrink-0 flex items-center justify-center">
+                            <User className="w-5 h-5 text-blue-600" />
+                          </div>
+                          <div className="truncate">
+                            <div className="font-medium text-gray-900">{candidate.name}</div>
+                            <div className="text-sm text-gray-500 truncate">
                               {candidate.email}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              Latest Round: {candidate.rounds[candidate.rounds.length - 1].type}
-                            </div>
                           </div>
-                          <span className={`text-sm px-2 py-1 rounded ${
+                        </div>
+
+                        {/* Role */}
+                        <div className="col-span-2 text-sm text-gray-600">
+                          {candidate.role}
+                        </div>
+
+                        {/* Status */}
+                        <div className="col-span-2">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                             candidate.status === 'In Progress' 
-                              ? 'bg-blue-100 text-blue-700'
-                              : 'bg-green-100 text-green-700'
+                              ? 'bg-blue-100 text-blue-800'
+                              : 'bg-green-100 text-green-800'
                           }`}>
                             {candidate.status}
                           </span>
                         </div>
+
+                        {/* Contact Info */}
+                        <div className="col-span-3 text-sm text-gray-600">
+                          <div className="flex items-center space-x-2">
+                            <Phone className="w-4 h-4 text-gray-400" />
+                            <span>{candidate.phone}</span>
+                          </div>
+                        </div>
+
+                        {/* Rating */}
+                        <div className="col-span-2 flex items-center space-x-1">
+                          <Star className={`w-4 h-4 ${
+                            candidate.rounds[candidate.rounds.length - 1].status === 'Passed'
+                              ? 'text-yellow-400'
+                              : 'text-gray-300'
+                          }`} />
+                          <span className="text-sm text-gray-600">
+                            {getRoundRating(candidate.rounds)}
+                          </span>
+                        </div>
                       </div>
                     ))}
-                </CardContent>
-              </Card>
-            )}
-          </div>
-
-          {/* Candidate Details & Interview Interface */}
-          <div className="col-span-5">
-            {selectedCandidate && (
-              <div className="space-y-6">
-                {/* Previous Rounds */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Interview History</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      {selectedCandidate.rounds.map((round, index) => (
-                        <div key={round.id} className="border-l-2 border-blue-200 pl-4 pb-4">
-                          <div className="flex justify-between items-start">
-                            <div>
-                              <div className="font-medium">{round.type}</div>
-                              <div className="text-sm text-gray-500">
-                                Interviewer: {round.interviewer}
-                              </div>
-                              <div className="text-sm text-gray-500 flex items-center">
-                                <Calendar className="w-4 h-4 mr-1" />
-                                {round.date}
-                              </div>
-                            </div>
-                            <span className={`text-sm px-2 py-1 rounded ${
-                              round.status === 'Passed' 
-                                ? 'bg-green-100 text-green-700'
-                                : 'bg-blue-100 text-blue-700'
-                            }`}>
-                              {round.status}
-                            </span>
-                          </div>
-                          <div className="mt-2 text-sm">
-                            <div className="font-medium">Comments:</div>
-                            <p className="text-gray-600">{round.comments}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Schedule Next Round */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Schedule Next Round</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="grid grid-cols-2 gap-4">
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Round Type
-                          </label>
-                          <Select onValueChange={setSelectedRoundType}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select round type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {MOCK_DATA.roundTypes.map(type => (
-                                <SelectItem key={type} value={type}>
-                                  {type}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Interviewer
-                          </label>
-                          <Select onValueChange={setSelectedInterviewer}>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select interviewer" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {MOCK_DATA.interviewers.map(interviewer => (
-                                <SelectItem 
-                                  key={interviewer.id} 
-                                  value={interviewer.id.toString()}
-                                >
-                                  {interviewer.name}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
-                      <button 
-                        onClick={handleScheduleInterview}
-                        className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
-                      >
-                        <Calendar className="w-4 h-4 mr-2" />
-                        Schedule Interview
-                      </button>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Interview Interface */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle className="text-lg">Interview Interface</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="bg-gray-50 p-4 rounded-lg h-64 overflow-y-auto">
-                        {isInterviewActive ? (
-                          <div className="text-center text-green-600">
-                            Interview in progress...
-                          </div>
-                        ) : (
-                          <div className="text-gray-400 text-center">
-                            Click "Start Interview" to begin recording and transcription
-                          </div>
-                        )}
-                      </div>
-                      <div className="flex space-x-2">
-                        <button 
-                          onClick={handleStartInterview}
-                          disabled={isInterviewActive}
-                          className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <MessageCircle className="w-4 h-4 mr-2" />
-                          Start Interview
-                        </button>
-                        <button 
-                          onClick={handleEndInterview}
-                          disabled={!isInterviewActive}
-                          className="flex-1 border border-blue-600 text-blue-600 py-2 px-4 rounded-lg hover:bg-blue-50 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <Clock className="w-4 h-4 mr-2" />
-                          End Interview
-                        </button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </main>
