@@ -14,6 +14,8 @@ const UserDetailsModal = ({ user, onClose }) => {
   const [activeTab, setActiveTab] = useState('rounds');
   const [showInterviewModal, setShowInterviewModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(null);
+  const [selectedInterviewer, setSelectedInterviewer] = useState(null);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState('');
 
   const handleInterviewClick = (round) => {
     const interviewer = MOCK_DATA.interviewers.find(i => i.name === round.interviewer) || 
@@ -28,6 +30,26 @@ const UserDetailsModal = ({ user, onClose }) => {
       round: round
     });
     setShowInterviewModal(true);
+  };
+
+  const generateTimeSlots = () => {
+    // Generate random time slots for the next 5 days
+    const slots = [];
+    const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+    const times = ['10:00 AM', '11:00 AM', '2:00 PM', '3:00 PM', '4:00 PM'];
+
+    days.forEach(day => {
+      // Randomly select 2-3 time slots for each day
+      const availableTimes = times.sort(() => 0.5 - Math.random()).slice(0, Math.floor(Math.random() * 2) + 2);
+      availableTimes.forEach(time => {
+        slots.push({
+          label: `${day} - ${time}`,
+          value: `${day} - ${time}`
+        });
+      });
+    });
+
+    return slots;
   };
 
   const renderTabContent = () => {
@@ -171,8 +193,94 @@ const UserDetailsModal = ({ user, onClose }) => {
 
       case 'schedule':
         return (
-          <div className="p-4 text-center text-gray-500">
-            Interview scheduling features will be implemented here
+          <div className="space-y-6">
+            <div className="bg-white rounded-xl border p-6">
+              <h3 className="text-lg font-semibold mb-6 flex items-center">
+                <Calendar className="w-5 h-5 mr-2 text-blue-500" />
+                Schedule New Interview
+              </h3>
+
+              {/* Interviewer Selection */}
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Select Interviewer
+                  </label>
+                  <select
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                    onChange={(e) => {
+                      const selectedInterviewer = MOCK_DATA.interviewers.find(
+                        i => i.id === parseInt(e.target.value)
+                      );
+                      setSelectedInterviewer(selectedInterviewer);
+                    }}
+                  >
+                    <option value="">Choose an interviewer</option>
+                    {MOCK_DATA.interviewers.map(interviewer => (
+                      <option key={interviewer.id} value={interviewer.id}>
+                        {interviewer.name} - {interviewer.role}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Time Slots */}
+                {selectedInterviewer && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Available Time Slots
+                    </label>
+                    <select
+                      className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                      onChange={(e) => setSelectedTimeSlot(e.target.value)}
+                    >
+                      <option value="">Select a time slot</option>
+                      {generateTimeSlots().map((slot, index) => (
+                        <option key={index} value={slot.value}>
+                          {slot.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Schedule Button */}
+                <button
+                  className="w-full mt-4 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={!selectedInterviewer || !selectedTimeSlot}
+                  onClick={() => {
+                    alert(`Interview scheduled with ${selectedInterviewer.name} at ${selectedTimeSlot}`);
+                    // Handle scheduling logic here
+                  }}
+                >
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Schedule Interview
+                </button>
+              </div>
+
+              {/* Selected Details */}
+              {selectedInterviewer && selectedTimeSlot && (
+                <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+                  <h4 className="font-medium text-sm text-gray-700 mb-2">Selected Details</h4>
+                  <div className="space-y-2 text-sm text-gray-600">
+                    <div className="flex items-center">
+                      <User className="w-4 h-4 mr-2" />
+                      <span>
+                        {selectedInterviewer.name} ({selectedInterviewer.role})
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <Clock className="w-4 h-4 mr-2" />
+                      <span>{selectedTimeSlot}</span>
+                    </div>
+                    <div className="flex items-center">
+                      <Building className="w-4 h-4 mr-2" />
+                      <span>{selectedInterviewer.department}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         );
 
