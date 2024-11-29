@@ -26,12 +26,12 @@ const InterviewerDetailsModal = ({ interviewer, onClose }) => {
   // Add graph data
   const graphData = {
     monthlyInterviews: [
-      { month: 'Jan', count: 8 },
-      { month: 'Feb', count: 12 },
-      { month: 'Mar', count: 7 },
-      { month: 'Apr', count: 15 },
-      { month: 'May', count: 10 },
-      { month: 'Jun', count: 13 }
+      { month: 'Jan', count: 34 },
+      { month: 'Feb', count: 56 },
+      { month: 'Mar', count: 56 },
+      { month: 'Apr', count: 25 },
+      { month: 'May', count: 89 },
+      { month: 'Jun', count: 56 }
     ],
     candidateOutcomes: {
       hired: 45,
