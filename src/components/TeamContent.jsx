@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { User, Search, Filter, CheckCircle } from 'lucide-react';
 import { MOCK_DATA } from '../data/mockData';
+import InterviewerDetailsModal from './InterviewerDetailsModal';
 
 const TeamContent = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('all');
   const [interviewerFilter, setInterviewerFilter] = useState('all');
+  const [selectedInterviewer, setSelectedInterviewer] = useState(null);
 
   const departments = [...new Set(MOCK_DATA.team.map(member => member.department))];
 
@@ -72,7 +74,11 @@ const TeamContent = () => {
         {/* Team Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredTeam.map(member => (
-            <div key={member.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+            <div 
+              key={member.id} 
+              className="border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => setSelectedInterviewer(member)}
+            >
               <div className="flex items-center space-x-4">
                 {member.image ? (
                   <div className="relative w-12 h-12">
@@ -137,6 +143,14 @@ const TeamContent = () => {
             </div>
           ))}
         </div>
+
+        {/* Add Modal */}
+        {selectedInterviewer && (
+          <InterviewerDetailsModal
+            interviewer={selectedInterviewer}
+            onClose={() => setSelectedInterviewer(null)}
+          />
+        )}
       </div>
     </div>
   );

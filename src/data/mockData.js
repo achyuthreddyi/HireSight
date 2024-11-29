@@ -226,6 +226,66 @@ export const MOCK_DATA = {
       isInterviewer: true,
       department: 'Engineering',
       interviewPanels: ['Architecture Review', 'Final Round']
+    },
+    {
+      id: 11,
+      name: 'Amitabh Bachchan',
+      role: 'Senior Architecture Lead',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Amitabh_Bachchan_28.jpg/220px-Amitabh_Bachchan_28.jpg',
+      seniority: 'Executive',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['System Architecture', 'Leadership']
+    },
+    {
+      id: 12,
+      name: 'Rajinikanth',
+      role: 'Principal Engineer',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Rajinikanth_2.0_First_Look_Launch.jpg/220px-Rajinikanth_2.0_First_Look_Launch.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['System Design', 'Technical Leadership']
+    },
+    {
+      id: 13,
+      name: 'Madhuri Dixit',
+      role: 'Product Lead',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/Madhuri_Dixit_celebrating_her_birthday_4.jpg/220px-Madhuri_Dixit_celebrating_her_birthday_4.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Product',
+      interviewPanels: ['Product Strategy', 'User Experience']
+    },
+    {
+      id: 14,
+      name: 'Prabhas',
+      role: 'Infrastructure Lead',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Prabhas_at_Adipurush_Pre_Release_Event.jpg/220px-Prabhas_at_Adipurush_Pre_Release_Event.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Infrastructure',
+      interviewPanels: ['Cloud Architecture', 'System Design']
+    },
+    {
+      id: 15,
+      name: 'Kajol',
+      role: 'UX Research Lead',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Kajol_at_Helicopter_Eela_promotions_%28cropped%29.jpg/220px-Kajol_at_Helicopter_Eela_promotions_%28cropped%29.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Design',
+      interviewPanels: ['User Research', 'Design Reviews']
+    },
+    {
+      id: 16,
+      name: 'Vijay',
+      role: 'Backend Lead',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Vijay_at_Beast_Press_Meet.jpg/220px-Vijay_at_Beast_Press_Meet.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['Backend Systems', 'Performance']
     }
   ]
 };
