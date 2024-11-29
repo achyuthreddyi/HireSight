@@ -43,9 +43,14 @@ const generateCandidates = (jobId, count) => {
     phone: faker.phone.number('+1 ### ### ####'),
     role: MOCK_DATA.jobs.find(job => job.id === jobId).title,
     jobId,
-    status: Math.random() > 0.5 ? 'In Progress' : 'Scheduled',
+    status: (() => {
+      const statuses = ['hire', 'rejected', 'onhold', 'in progress'];
+      return statuses[Math.floor(Math.random() * statuses.length)];
+    })(),
     rating: Number((3 + Math.random() * 2).toFixed(1)),
-    rounds: generateInterviewRounds(Math.floor(Math.random() * 3) + 1)
+    rounds: generateInterviewRounds(Math.floor(Math.random() * 3) + 1),
+    currentRound: Math.floor(Math.random() * 5) + 1,
+    overallScore: Math.floor(Math.random() * 100) + 1
   }));
 };
 

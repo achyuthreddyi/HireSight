@@ -141,11 +141,12 @@ const Dashboard = () => {
 
                   {/* Table Header */}
                   <div className="grid grid-cols-12 gap-4 px-4 py-2 bg-gray-50 rounded-t-lg text-sm font-medium text-gray-500">
-                    <div className="col-span-3">Candidate</div>
+                    <div className="col-span-2">Candidate</div>
                     <div className="col-span-2">Role</div>
                     <div className="col-span-2">Status</div>
-                    <div className="col-span-3">Contact</div>
-                    <div className="col-span-2">Last Round</div>
+                    <div className="col-span-2">Contact</div>
+                    <div className="col-span-2">Round</div>
+                    <div className="col-span-2">Score</div>
                   </div>
 
                   {/* Candidates List */}
@@ -157,7 +158,7 @@ const Dashboard = () => {
                         className="grid grid-cols-12 gap-4 px-4 py-3 items-center hover:bg-gray-50 cursor-pointer transition-colors"
                       >
                         {/* Candidate Name & Image */}
-                        <div className="col-span-3 flex items-center space-x-3">
+                        <div className="col-span-2 flex items-center space-x-3">
                           <div className="w-10 h-10 rounded-full bg-blue-100 flex-shrink-0 flex items-center justify-center">
                             <User className="w-5 h-5 text-blue-600" />
                           </div>
@@ -177,32 +178,62 @@ const Dashboard = () => {
                         {/* Status */}
                         <div className="col-span-2">
                           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                            candidate.status === 'In Progress' 
-                              ? 'bg-blue-100 text-blue-800'
-                              : 'bg-green-100 text-green-800'
+                            (() => {
+                              switch(candidate.status) {
+                                case 'hire':
+                                  return 'bg-green-100 text-green-800';
+                                case 'rejected':
+                                  return 'bg-red-100 text-red-800';
+                                case 'onhold':
+                                  return 'bg-yellow-100 text-yellow-800';
+                                case 'in progress':
+                                  return 'bg-blue-100 text-blue-800';
+                                default:
+                                  return 'bg-gray-100 text-gray-800';
+                              }
+                            })()
                           }`}>
-                            {candidate.status}
+                            {candidate.status.charAt(0).toUpperCase() + candidate.status.slice(1)}
                           </span>
                         </div>
 
                         {/* Contact Info */}
-                        <div className="col-span-3 text-sm text-gray-600">
+                        <div className="col-span-2 text-sm text-gray-600">
                           <div className="flex items-center space-x-2">
                             <Phone className="w-4 h-4 text-gray-400" />
                             <span>{candidate.phone}</span>
                           </div>
                         </div>
 
-                        {/* Rating */}
-                        <div className="col-span-2 flex items-center space-x-1">
-                          <Star className={`w-4 h-4 ${
-                            candidate.rounds[candidate.rounds.length - 1].status === 'Passed'
-                              ? 'text-yellow-400'
-                              : 'text-gray-300'
-                          }`} />
-                          <span className="text-sm text-gray-600">
-                            {getRoundRating(candidate.rounds)}
-                          </span>
+                        {/* Interview Round */}
+                        <div className="col-span-2">
+                          <div className="flex items-center space-x-2">
+                            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center">
+                              <span className="text-sm font-medium text-blue-600">R{candidate.currentRound}</span>
+                            </div>
+                            <span className="text-sm text-gray-600">
+                              Round {candidate.currentRound}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Overall Score */}
+                        <div className="col-span-2">
+                          <div className="flex items-center space-x-2">
+                            <div className={`h-2 w-16 rounded-full ${
+                              candidate.overallScore >= 75 ? 'bg-green-500' :
+                              candidate.overallScore >= 50 ? 'bg-yellow-500' :
+                              'bg-red-500'
+                            }`}>
+                              <div 
+                                className="h-full rounded-full bg-opacity-50"
+                                style={{ width: `${candidate.overallScore}%` }}
+                              />
+                            </div>
+                            <span className="text-sm font-medium text-gray-600">
+                              {candidate.overallScore}%
+                            </span>
+                          </div>
                         </div>
                       </div>
                     ))}
