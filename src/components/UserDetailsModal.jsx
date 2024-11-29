@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Calendar, User, Mail, Building, Clock } from 'lucide-react';
-import InterviewModal from './InterviewModal';
+import UpcomingInterviewModal from './UpcomingInterviewModal';
+import CompletedInterviewModal from './CompletedInterviewModal';
 import MOCK_DATA from '../data/mockData';
 
 const TABS = [
@@ -15,7 +16,6 @@ const UserDetailsModal = ({ user, onClose }) => {
   const [selectedInterview, setSelectedInterview] = useState(null);
 
   const handleInterviewClick = (round) => {
-    // Find the interviewer from the interviewers list
     const interviewer = MOCK_DATA.interviewers.find(i => i.name === round.interviewer) || 
       MOCK_DATA.interviewers[Math.floor(Math.random() * MOCK_DATA.interviewers.length)];
 
@@ -24,7 +24,7 @@ const UserDetailsModal = ({ user, onClose }) => {
       interviewer,
       roundType: round.type,
       date: round.date,
-      time: '10:00 AM', // You can add time to your round data if needed
+      time: '10:00 AM',
       round: round
     });
     setShowInterviewModal(true);
@@ -138,10 +138,17 @@ const UserDetailsModal = ({ user, onClose }) => {
 
       {/* Interview Modal */}
       {showInterviewModal && selectedInterview && (
-        <InterviewModal 
-          interview={selectedInterview}
-          onClose={() => setShowInterviewModal(false)}
-        />
+        selectedInterview.round.status === 'Passed' || selectedInterview.round.status === 'Failed' ? (
+          <CompletedInterviewModal 
+            interview={selectedInterview}
+            onClose={() => setShowInterviewModal(false)}
+          />
+        ) : (
+          <UpcomingInterviewModal 
+            interview={selectedInterview}
+            onClose={() => setShowInterviewModal(false)}
+          />
+        )
       )}
     </>
   );
