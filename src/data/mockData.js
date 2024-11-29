@@ -126,6 +126,107 @@ export const MOCK_DATA = {
     'HR Round',
     'Team Fit',
     'Final Discussion'
+  ],
+
+  team: [
+    {
+      id: 1,
+      name: 'Shah Rukh Khan',
+      role: 'Technical Director',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg/220px-Shah_Rukh_Khan_graces_the_launch_of_the_new_Santro.jpg',
+      seniority: 'Senior Leadership',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['System Design', 'Leadership']
+    },
+    {
+      id: 2,
+      name: 'Aamir Khan',
+      role: 'Product Manager',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Aamir_Khan_at_the_DVD_launch_of_PK.jpg/220px-Aamir_Khan_at_the_DVD_launch_of_PK.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Product',
+      interviewPanels: ['Product Design', 'User Experience']
+    },
+    {
+      id: 3,
+      name: 'Deepika Padukone',
+      role: 'UI/UX Lead',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Deepika_Padukone_Cannes_2018_2.jpg/220px-Deepika_Padukone_Cannes_2018_2.jpg',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Design',
+      interviewPanels: ['Design', 'Culture Fit']
+    },
+    {
+      id: 4,
+      name: 'Ranveer Singh',
+      role: 'Frontend Developer',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Ranveer_Singh_promoting_Bajirao_Mastani.jpg/220px-Ranveer_Singh_promoting_Bajirao_Mastani.jpg',
+      seniority: 'Mid-Level',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['Frontend', 'JavaScript']
+    },
+    {
+      id: 5,
+      name: 'Priyanka Chopra',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Priyanka-chopra-gestures-during-promotional-event.jpg/220px-Priyanka-chopra-gestures-during-promotional-event.jpg',
+      role: 'Engineering Manager',
+      seniority: 'Senior Leadership',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['Technical Leadership', 'System Design']
+    },
+    {
+      id: 6,
+      name: 'Ranbir Kapoor',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Ranbir_Kapoor_promoting_Brahmastra.jpg/220px-Ranbir_Kapoor_promoting_Brahmastra.jpg',
+      role: 'Backend Developer',
+      seniority: 'Mid-Level',
+      isInterviewer: false,
+      department: 'Engineering'
+    },
+    {
+      id: 7,
+      name: 'Alia Bhatt',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Alia_Bhatt_at_Berlinale_2022_Gangubai_Press_Conference.jpg/220px-Alia_Bhatt_at_Berlinale_2022_Gangubai_Press_Conference.jpg',
+      role: 'Product Designer',
+      seniority: 'Mid-Level',
+      isInterviewer: true,
+      department: 'Design',
+      interviewPanels: ['UI Design', 'Portfolio Review']
+    },
+    {
+      id: 8,
+      name: 'Hrithik Roshan',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Hrithik_at_Rado_launch.jpg/220px-Hrithik_at_Rado_launch.jpg',
+      role: 'DevOps Engineer',
+      seniority: 'Senior',
+      isInterviewer: true,
+      department: 'Infrastructure',
+      interviewPanels: ['DevOps', 'System Architecture']
+    },
+    {
+      id: 9,
+      name: 'Katrina Kaif',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Katrina_Kaif_promoting_Bharat_in_2019.jpg/220px-Katrina_Kaif_promoting_Bharat_in_2019.jpg',
+      role: 'Data Scientist',
+      seniority: 'Senior',
+      isInterviewer: false,
+      department: 'Analytics'
+    },
+    {
+      id: 10,
+      name: 'Akshay Kumar',
+      image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Akshay_Kumar.jpg/220px-Akshay_Kumar.jpg',
+      role: 'CTO',
+      seniority: 'Executive',
+      isInterviewer: true,
+      department: 'Engineering',
+      interviewPanels: ['Architecture Review', 'Final Round']
+    }
   ]
 };
 

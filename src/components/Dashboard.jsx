@@ -25,6 +25,7 @@ import MOCK_DATA from '../data/mockData';
 import SurveyModal from './SurveyModal';
 import DashboardContent from './DashboardContent';
 import Placeholder from './Placeholder';
+import TeamContent from './TeamContent';
 
 const NAVIGATION_ITEMS = [
   {
@@ -523,6 +524,8 @@ const Dashboard = () => {
                   message="Our engineers are still arguing about the best shade of blue to use."
                   gifUrl="https://media.giphy.com/media/13FrpeVH09Zrb2/giphy.gif"
                 />
+              ) : activeNavItem === 'team' ? (
+                <TeamContent />
               ) : (
                 // Position-specific Candidates View
                 <div className="bg-white rounded-lg shadow-sm border">
