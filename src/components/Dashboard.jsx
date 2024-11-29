@@ -12,10 +12,114 @@ import {
   Search,
   Phone,
   Star,
-  Filter
+  Filter,
+  ClipboardList,
+  LayoutDashboard,
+  ChartBar,
+  Settings,
+  FileText,
+  Users as UsersIcon
 } from 'lucide-react';
 import UserDetailsModal from './UserDetailsModal';
 import MOCK_DATA from '../data/mockData';
+import SurveyModal from './SurveyModal';
+
+const NAVIGATION_ITEMS = [
+  {
+    id: 'dashboard',
+    label: 'Dashboard',
+    icon: LayoutDashboard
+  },
+  {
+    id: 'positions',
+    label: 'Open Positions',
+    icon: Briefcase,
+    subItems: MOCK_DATA.jobs.map(job => ({
+      id: job.id,
+      label: job.title,
+      department: job.department,
+      openings: job.openings
+    }))
+  },
+  {
+    id: 'analytics',
+    label: 'Analytics',
+    icon: ChartBar
+  },
+  {
+    id: 'reports',
+    label: 'Reports',
+    icon: FileText
+  },
+  {
+    id: 'team',
+    label: 'Team',
+    icon: UsersIcon
+  },
+  {
+    id: 'settings',
+    label: 'Settings',
+    icon: Settings
+  }
+];
+
+const SECTION_CONTENT = {
+  dashboard: {
+    title: 'Dashboard Overview',
+    content: (
+      <div className="p-4 space-y-4">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-medium mb-2">Dashboard Overview</h3>
+          <p className="text-gray-600">Dashboard metrics and analytics coming soon...</p>
+        </div>
+      </div>
+    )
+  },
+  analytics: {
+    title: 'Analytics & Reports',
+    content: (
+      <div className="p-4 space-y-4">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-medium mb-2">Hiring Metrics</h3>
+          <p className="text-gray-600">Analytics dashboard coming soon...</p>
+        </div>
+      </div>
+    )
+  },
+  reports: {
+    title: 'Generated Reports',
+    content: (
+      <div className="p-4 space-y-4">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-medium mb-2">Recent Reports</h3>
+          <p className="text-gray-600">Report generation feature coming soon...</p>
+        </div>
+      </div>
+    )
+  },
+  team: {
+    title: 'Team Management',
+    content: (
+      <div className="p-4 space-y-4">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-medium mb-2">Team Members</h3>
+          <p className="text-gray-600">Team management features coming soon...</p>
+        </div>
+      </div>
+    )
+  },
+  settings: {
+    title: 'System Settings',
+    content: (
+      <div className="p-4 space-y-4">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="font-medium mb-2">Configuration</h3>
+          <p className="text-gray-600">Settings configuration coming soon...</p>
+        </div>
+      </div>
+    )
+  }
+};
 
 const Dashboard = () => {
   const [selectedJob, setSelectedJob] = useState(null);
@@ -25,6 +129,9 @@ const Dashboard = () => {
   const [statusFilter, setStatusFilter] = useState('all');
   const [roundFilter, setRoundFilter] = useState('all');
   const [showFilters, setShowFilters] = useState(false);
+  const [showSurveyModal, setShowSurveyModal] = useState(false);
+  const [activeNavItem, setActiveNavItem] = useState('positions');
+  const [expandedItem, setExpandedItem] = useState(null);
 
   const handleJobSelect = (job) => {
     setSelectedJob(job);
@@ -132,44 +239,69 @@ const Dashboard = () => {
       <main className="pt-20 pb-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-12 gap-6">
-            {/* Jobs List - Updated */}
-            <div className="col-span-3 bg-white rounded-lg shadow-sm border h-[calc(100vh-7rem)] sticky top-20">
-              <div className="p-4 border-b">
-                <h2 className="text-lg font-semibold flex items-center">
-                  <Briefcase className="w-5 h-5 mr-2 text-blue-600" />
-                  Open Positions
-                </h2>
-              </div>
-              <div className="overflow-y-auto h-[calc(100%-4rem)]">
-                {MOCK_DATA.jobs.map(job => (
-                  <div
-                    key={job.id}
-                    onClick={() => handleJobSelect(job)}
-                    className={`p-4 cursor-pointer transition-colors border-l-4 ${
-                      selectedJob?.id === job.id 
-                        ? 'bg-blue-50 border-l-blue-500' 
-                        : 'border-l-transparent hover:bg-gray-50'
-                    }`}
-                  >
-                    <div className="font-medium text-gray-900">{job.title}</div>
-                    <div className="mt-1 flex items-center justify-between text-sm text-gray-500">
-                      <div className="flex items-center">
-                        <Building className="w-4 h-4 mr-1" />
-                        {job.department}
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="flex items-center" title="Open positions">
-                          <Briefcase className="w-4 h-4 mr-1" />
-                          {job.openings}
+            {/* Sidebar */}
+            <div className="col-span-3 bg-white rounded-lg shadow-sm border h-[calc(100vh-7rem)] sticky top-20 flex flex-col">
+              {/* Navigation */}
+              <div className="p-2 flex-1 overflow-y-auto">
+                {NAVIGATION_ITEMS.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <div key={item.id}>
+                      <button
+                        onClick={() => {
+                          setActiveNavItem(item.id);
+                          setExpandedItem(expandedItem === item.id ? null : item.id);
+                          if (item.id === 'positions' && expandedItem === 'positions') {
+                            setSelectedJob(null);
+                          }
+                        }}
+                        className={`w-full flex items-center justify-between px-4 py-3 rounded-lg transition-colors ${
+                          activeNavItem === item.id
+                            ? 'bg-blue-50 text-blue-600'
+                            : 'text-gray-600 hover:bg-gray-50'
+                        }`}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <Icon className="w-5 h-5" />
+                          <span className="font-medium">{item.label}</span>
                         </div>
-                        <div className="flex items-center" title="Total candidates">
-                          <Users className="w-4 h-4 mr-1" />
-                          {getCandidateCount(job.id)}
+                      </button>
+
+                      {expandedItem === item.id && (
+                        <div className="mt-2">
+                          {item.id === 'positions' ? (
+                            <div className="ml-4 space-y-1">
+                              {MOCK_DATA.jobs.map(job => (
+                                <button
+                                  key={job.id}
+                                  onClick={() => handleJobSelect(job)}
+                                  className={`w-full flex items-center justify-between px-4 py-2 rounded-lg text-sm transition-colors ${
+                                    selectedJob?.id === job.id
+                                      ? 'bg-blue-50 text-blue-600'
+                                      : 'text-gray-600 hover:bg-gray-50'
+                                  }`}
+                                >
+                                  <div className="flex items-center space-x-2">
+                                    <Building className="w-4 h-4" />
+                                    <span>{job.title}</span>
+                                  </div>
+                                  <div className="flex items-center space-x-2 text-xs text-gray-500">
+                                    <span>{getCandidateCount(job.id)}</span>
+                                    <Users className="w-3 h-3" />
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="ml-4">
+                              {SECTION_CONTENT[item.id]?.content}
+                            </div>
+                          )}
                         </div>
-                      </div>
+                      )}
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
 
@@ -212,6 +344,15 @@ const Dashboard = () => {
                         }`}
                       >
                         <Filter className="w-5 h-5" />
+                      </button>
+
+                      {/* Survey Button */}
+                      <button
+                        onClick={() => setShowSurveyModal(true)}
+                        className="p-2 rounded-lg border border-green-500 text-green-600 hover:bg-green-50 transition-colors"
+                        title="Create New Survey"
+                      >
+                        <ClipboardList className="w-5 h-5" />
                       </button>
                     </div>
                   </div>
@@ -315,6 +456,10 @@ const Dashboard = () => {
           user={selectedCandidate} 
           onClose={() => setShowUserModal(false)} 
         />
+      )}
+
+      {showSurveyModal && (
+        <SurveyModal onClose={() => setShowSurveyModal(false)} />
       )}
     </div>
   );
