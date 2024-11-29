@@ -23,6 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import UserDetailsModal from './UserDetailsModal';
 
 // Mock data for development
 const MOCK_DATA = {
@@ -96,6 +97,7 @@ const Dashboard = () => {
   const [isInterviewActive, setIsInterviewActive] = useState(false);
   const [selectedRoundType, setSelectedRoundType] = useState('');
   const [selectedInterviewer, setSelectedInterviewer] = useState('');
+  const [showUserModal, setShowUserModal] = useState(false);
 
   // Handler functions
   const handleJobSelect = (job) => {
@@ -105,6 +107,7 @@ const Dashboard = () => {
 
   const handleCandidateSelect = (candidate) => {
     setSelectedCandidate(candidate);
+    setShowUserModal(true);
   };
 
   const handleStartInterview = () => {
@@ -190,11 +193,7 @@ const Dashboard = () => {
                       <div
                         key={candidate.id}
                         onClick={() => handleCandidateSelect(candidate)}
-                        className={`p-4 border-b last:border-b-0 cursor-pointer ${
-                          selectedCandidate?.id === candidate.id 
-                            ? 'bg-blue-50' 
-                            : 'hover:bg-gray-50'
-                        }`}
+                        className={`p-4 border-b last:border-b-0 cursor-pointer hover:bg-gray-50`}
                       >
                         <div className="flex justify-between items-start">
                           <div>
@@ -364,6 +363,13 @@ const Dashboard = () => {
           </div>
         </div>
       </main>
+
+      {showUserModal && selectedCandidate && (
+        <UserDetailsModal 
+          user={selectedCandidate} 
+          onClose={() => setShowUserModal(false)} 
+        />
+      )}
     </div>
   );
 };
