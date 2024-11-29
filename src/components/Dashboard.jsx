@@ -14,77 +14,7 @@ import {
   Star
 } from 'lucide-react';
 import UserDetailsModal from './UserDetailsModal';
-
-// Mock data for development
-const MOCK_DATA = {
-  jobs: [
-    { id: 1, title: 'Senior Frontend Developer', department: 'Engineering', openings: 3 },
-    { id: 2, title: 'Product Manager', department: 'Product', openings: 2 },
-    { id: 3, title: 'DevOps Engineer', department: 'Infrastructure', openings: 1 }
-  ],
-  candidates: [
-    { 
-      id: 1, 
-      name: 'John Doe',
-      email: 'john.doe@email.com',
-      phone: '+1 (555) 123-4567',
-      role: 'Senior Frontend Developer',
-      jobId: 1,
-      status: 'In Progress',
-      rating: 4.5,
-      rounds: [
-        { 
-          id: 1, 
-          type: 'Technical Round 1',
-          interviewer: 'Alice Smith',
-          date: '2024-11-25',
-          comments: 'Strong fundamentals in React. Good problem-solving skills.',
-          status: 'Passed'
-        },
-        { 
-          id: 2, 
-          type: 'System Design',
-          interviewer: 'Bob Johnson',
-          date: '2024-11-27',
-          comments: 'Demonstrated good understanding of scalability concepts.',
-          status: 'Scheduled'
-        }
-      ]
-    },
-    { 
-      id: 2, 
-      name: 'Jane Smith',
-      email: 'jane.smith@email.com',
-      phone: '+1 (555) 765-4321',
-      role: 'Product Manager',
-      jobId: 1,
-      status: 'Scheduled',
-      rating: 3.8,
-      rounds: [
-        { 
-          id: 1, 
-          type: 'Technical Round 1',
-          interviewer: 'Carol Williams',
-          date: '2024-11-26',
-          comments: 'Excellent JavaScript knowledge. Clear communication.',
-          status: 'Passed'
-        }
-      ]
-    }
-  ],
-  interviewers: [
-    { id: 1, name: 'Alice Smith', department: 'Engineering' },
-    { id: 2, name: 'Bob Johnson', department: 'Engineering' },
-    { id: 3, name: 'Carol Williams', department: 'Product' }
-  ],
-  roundTypes: [
-    'Technical Round 1',
-    'Technical Round 2',
-    'System Design',
-    'Culture Fit',
-    'HR Round'
-  ]
-};
+import MOCK_DATA from '../data/mockData';
 
 const Dashboard = () => {
   const [selectedJob, setSelectedJob] = useState(null);
