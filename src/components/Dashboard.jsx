@@ -44,6 +44,10 @@ const Dashboard = () => {
     return lastRound.status === 'Passed' ? '4.5/5' : 'Pending';
   };
 
+  const getCandidateCount = (jobId) => {
+    return MOCK_DATA.candidates.filter(c => c.jobId === jobId).length;
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -66,7 +70,7 @@ const Dashboard = () => {
       <main className="pt-20 pb-6">
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-12 gap-6">
-            {/* Jobs List */}
+            {/* Jobs List - Updated */}
             <div className="col-span-3 bg-white rounded-lg shadow-sm border h-[calc(100vh-7rem)] sticky top-20">
               <div className="p-4 border-b">
                 <h2 className="text-lg font-semibold flex items-center">
@@ -91,9 +95,15 @@ const Dashboard = () => {
                         <Building className="w-4 h-4 mr-1" />
                         {job.department}
                       </div>
-                      <div className="flex items-center">
-                        <Users className="w-4 h-4 mr-1" />
-                        {job.openings}
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center" title="Open positions">
+                          <Briefcase className="w-4 h-4 mr-1" />
+                          {job.openings}
+                        </div>
+                        <div className="flex items-center" title="Total candidates">
+                          <Users className="w-4 h-4 mr-1" />
+                          {getCandidateCount(job.id)}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -106,10 +116,17 @@ const Dashboard = () => {
               <div className="bg-white rounded-lg shadow-sm border">
                 <div className="p-4">
                   <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-lg font-semibold flex items-center">
-                      <Users className="w-5 h-5 mr-2 text-blue-600" />
-                      Candidates {selectedJob && `for ${selectedJob.title}`}
-                    </h2>
+                    <div className="space-y-1">
+                      <h2 className="text-lg font-semibold flex items-center">
+                        <Users className="w-5 h-5 mr-2 text-blue-600" />
+                        Candidates {selectedJob && `for ${selectedJob.title}`}
+                      </h2>
+                      {selectedJob && (
+                        <p className="text-sm text-gray-500">
+                          {getCandidateCount(selectedJob.id)} candidates for {selectedJob.openings} openings
+                        </p>
+                      )}
+                    </div>
                     <div className="relative">
                       <Search className="w-5 h-5 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                       <input

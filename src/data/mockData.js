@@ -124,9 +124,11 @@ export const MOCK_DATA = {
   ]
 };
 
-// Generate candidates for each job
-MOCK_DATA.candidates = MOCK_DATA.jobs.flatMap(job => 
-  generateCandidates(job.id, job.openings * 4) // 4 candidates per opening
-);
+// Generate candidates for each job with a more realistic distribution
+MOCK_DATA.candidates = MOCK_DATA.jobs.flatMap(job => {
+  // Generate between 8 to 15 candidates per opening
+  const candidatesPerOpening = Math.floor(Math.random() * 8) + 8;
+  return generateCandidates(job.id, job.openings * candidatesPerOpening);
+});
 
 export default MOCK_DATA; 
