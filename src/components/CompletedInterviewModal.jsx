@@ -9,11 +9,13 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const videoRef = useRef(null);
+  const [currentTime, setCurrentTime] = useState(0);
+
+  // Add back the selectedVideo state
   const [selectedVideo] = useState(() => {
     const videos = [MOCK_DATA.interviewVideos.video1, MOCK_DATA.interviewVideos.video2];
     return videos[Math.floor(Math.random() * videos.length)];
   });
-  const [currentTime, setCurrentTime] = useState(0);
 
   // Mock analytics data (in real app, this would come from your backend)
   const analytics = {
@@ -36,6 +38,99 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
       attitude: 'Shows enthusiasm for learning and handles feedback constructively.'
     }
   };
+
+  // Move getRecommendationDetails before it's used
+  const getRecommendationDetails = (confidence) => {
+    if (confidence >= 75) {
+      return {
+        status: 'Strong Hire',
+        icon: <ThumbsUp className="w-5 h-5" />,
+        colors: 'bg-green-100 text-green-700'
+      };
+    } else if (confidence >= 50) {
+      return {
+        status: 'Consider Other Role',
+        icon: <ArrowRight className="w-5 h-5" />,
+        colors: 'bg-yellow-100 text-yellow-700'
+      };
+    } else {
+      return {
+        status: 'Do Not Hire',
+        icon: <ThumbsDown className="w-5 h-5" />,
+        colors: 'bg-red-100 text-red-700'
+      };
+    }
+  };
+
+  // Generate random values once when component mounts
+  const [initialValues] = useState(() => ({
+    confidence: Math.floor(Math.random() * 40) + 40,
+    skillScores: {
+      hardSkills: {
+        'System Design': Math.floor(Math.random() * 20) + 80,
+        'Data Structures': Math.floor(Math.random() * 15) + 80,
+        'Algorithms': Math.floor(Math.random() * 15) + 80,
+        'Problem Solving': Math.floor(Math.random() * 15) + 80,
+        'Coding': Math.floor(Math.random() * 15) + 80,
+      },
+      softSkills: {
+        'Communication': Math.floor(Math.random() * 15) + 80,
+        'Leadership': Math.floor(Math.random() * 20) + 75,
+        'Team Collaboration': Math.floor(Math.random() * 15) + 80,
+        'Adaptability': Math.floor(Math.random() * 20) + 75,
+      }
+    }
+  }));
+
+  // Now we can use getRecommendationDetails
+  const recommendation = getRecommendationDetails(initialValues.confidence);
+
+  // Update the skills section to use initialValues
+  const renderSkillsAssessment = () => (
+    <div className="space-y-6">
+      {/* Hard Skills */}
+      <div className="bg-blue-50 rounded-xl p-4">
+        <h3 className="font-semibold mb-4">Technical Skills Assessment</h3>
+        <div className="space-y-3">
+          {Object.entries(initialValues.skillScores.hardSkills).map(([skill, score]) => (
+            <div key={skill}>
+              <div className="flex justify-between text-sm mb-1">
+                <span>{skill}</span>
+                <span className="font-medium">{score}%</span>
+              </div>
+              <div className="h-2 bg-blue-100 rounded-full">
+                <div 
+                  className="h-full bg-blue-500 rounded-full"
+                  style={{ width: `${score}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Soft Skills */}
+      <div className="bg-purple-50 rounded-xl p-4">
+        <h3 className="font-semibold mb-4">Behavioral Skills Assessment</h3>
+        <div className="space-y-3">
+          {Object.entries(initialValues.skillScores.softSkills).map(([skill, score]) => (
+            <div key={skill}>
+              <div className="flex justify-between text-sm mb-1">
+                <span>{skill}</span>
+                <span className="font-medium">{score}%</span>
+              </div>
+              <div className="h-2 bg-purple-100 rounded-full">
+                <div 
+                  className="h-full bg-purple-500 rounded-full"
+                  style={{ width: `${score}%` }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   const handlePlayPause = () => {
     if (videoRef.current) {
@@ -70,44 +165,6 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
   const handleTimeUpdate = () => {
     if (videoRef.current) {
       setCurrentTime(Math.floor(videoRef.current.currentTime));
-    }
-  };
-
-  const generateSkillScores = () => ({
-    hardSkills: {
-      'System Design': Math.floor(Math.random() * 20) + 80, // 80-100
-      'Data Structures': Math.floor(Math.random() * 15) + 80,
-      'Algorithms': Math.floor(Math.random() * 15) + 80,
-      'Problem Solving': Math.floor(Math.random() * 15) + 80,
-      'Coding': Math.floor(Math.random() * 15) + 80,
-    },
-    softSkills: {
-      'Communication': Math.floor(Math.random() * 15) + 80,
-      'Leadership': Math.floor(Math.random() * 20) + 75,
-      'Team Collaboration': Math.floor(Math.random() * 15) + 80,
-      'Adaptability': Math.floor(Math.random() * 20) + 75,
-    }
-  });
-
-  const getRecommendationDetails = (confidence) => {
-    if (confidence >= 75) {
-      return {
-        status: 'Strong Hire',
-        icon: <ThumbsUp className="w-5 h-5" />,
-        colors: 'bg-green-100 text-green-700'
-      };
-    } else if (confidence >= 50) {
-      return {
-        status: 'Consider Other Role',
-        icon: <ArrowRight className="w-5 h-5" />,
-        colors: 'bg-yellow-100 text-yellow-700'
-      };
-    } else {
-      return {
-        status: 'Do Not Hire',
-        icon: <ThumbsDown className="w-5 h-5" />,
-        colors: 'bg-red-100 text-red-700'
-      };
     }
   };
 
@@ -237,70 +294,19 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                         </div>
                       </div>
                       <div className="flex flex-col items-end">
-                        {(() => {
-                          const confidence = Math.floor(Math.random() * 40) + 40; // Random between 40-80
-                          const recommendation = getRecommendationDetails(confidence);
-                          
-                          return (
-                            <>
-                              <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full ${recommendation.colors}`}>
-                                {recommendation.icon}
-                                <span className="font-medium">{recommendation.status}</span>
-                              </div>
-                              <div className="mt-2 text-sm text-gray-500">
-                                Confidence: {confidence}%
-                              </div>
-                            </>
-                          );
-                        })()}
+                        <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full ${recommendation.colors}`}>
+                          {recommendation.icon}
+                          <span className="font-medium">{recommendation.status}</span>
+                        </div>
+                        <div className="mt-2 text-sm text-gray-500">
+                          Confidence: {initialValues.confidence}%
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Skills Assessment */}
-                  <div className="space-y-6">
-                    {/* Hard Skills */}
-                    <div className="bg-blue-50 rounded-xl p-4">
-                      <h3 className="font-semibold mb-4">Technical Skills Assessment</h3>
-                      <div className="space-y-3">
-                        {Object.entries(generateSkillScores().hardSkills).map(([skill, score]) => (
-                          <div key={skill}>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span>{skill}</span>
-                              <span className="font-medium">{score}%</span>
-                            </div>
-                            <div className="h-2 bg-blue-100 rounded-full">
-                              <div 
-                                className="h-full bg-blue-500 rounded-full"
-                                style={{ width: `${score}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Soft Skills */}
-                    <div className="bg-purple-50 rounded-xl p-4">
-                      <h3 className="font-semibold mb-4">Behavioral Skills Assessment</h3>
-                      <div className="space-y-3">
-                        {Object.entries(generateSkillScores().softSkills).map(([skill, score]) => (
-                          <div key={skill}>
-                            <div className="flex justify-between text-sm mb-1">
-                              <span>{skill}</span>
-                              <span className="font-medium">{score}%</span>
-                            </div>
-                            <div className="h-2 bg-purple-100 rounded-full">
-                              <div 
-                                className="h-full bg-purple-500 rounded-full"
-                                style={{ width: `${score}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
+                  {renderSkillsAssessment()}
                 </div>
               </div>
 
