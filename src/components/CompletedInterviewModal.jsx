@@ -88,20 +88,20 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
 
   // Update the skills section to use initialValues
   const renderSkillsAssessment = () => (
-    <div className="space-y-6">
+    <div className="grid grid-cols-2 gap-8">
       {/* Hard Skills */}
-      <div className="bg-blue-50 rounded-xl p-4">
-        <h3 className="font-semibold mb-4">Technical Skills Assessment</h3>
-        <div className="space-y-3">
+      <div className="bg-blue-50 rounded-xl p-6">
+        <h3 className="font-semibold mb-4 text-blue-700">Technical Skills Assessment</h3>
+        <div className="space-y-4">
           {Object.entries(initialValues.skillScores.hardSkills).map(([skill, score]) => (
             <div key={skill}>
-              <div className="flex justify-between text-sm mb-1">
-                <span>{skill}</span>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="font-medium">{skill}</span>
                 <span className="font-medium">{score}%</span>
               </div>
               <div className="h-2 bg-blue-100 rounded-full">
                 <div 
-                  className="h-full bg-blue-500 rounded-full"
+                  className="h-full bg-blue-500 rounded-full transition-all duration-300"
                   style={{ width: `${score}%` }}
                 />
               </div>
@@ -111,18 +111,18 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
       </div>
 
       {/* Soft Skills */}
-      <div className="bg-purple-50 rounded-xl p-4">
-        <h3 className="font-semibold mb-4">Behavioral Skills Assessment</h3>
-        <div className="space-y-3">
+      <div className="bg-purple-50 rounded-xl p-6">
+        <h3 className="font-semibold mb-4 text-purple-700">Behavioral Skills Assessment</h3>
+        <div className="space-y-4">
           {Object.entries(initialValues.skillScores.softSkills).map(([skill, score]) => (
             <div key={skill}>
-              <div className="flex justify-between text-sm mb-1">
-                <span>{skill}</span>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="font-medium">{skill}</span>
                 <span className="font-medium">{score}%</span>
               </div>
               <div className="h-2 bg-purple-100 rounded-full">
                 <div 
-                  className="h-full bg-purple-500 rounded-full"
+                  className="h-full bg-purple-500 rounded-full transition-all duration-300"
                   style={{ width: `${score}%` }}
                 />
               </div>
@@ -210,7 +210,7 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
           {/* Main Content - Scrollable */}
           <div className="flex-1 overflow-y-auto">
             <div className="p-6 space-y-6">
-              {/* First Row: Video + Stats */}
+              {/* First Row: Video + Interview Details */}
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Left Column: Video + Tabs */}
                 <div className="lg:w-1/2 flex flex-col">
@@ -299,136 +299,111 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                   </div>
                 </div>
 
-                {/* Right Column: Interview Details and Skills */}
+                {/* Right Column: Interview Details */}
                 <div className="lg:w-1/2">
-                  {/* Interview Details Card */}
                   <InterviewDetailsCard 
                     candidate={candidateData}
                     recommendation={recommendation}
                     scores={scores}
                   />
-
-                  {/* Skills Assessment */}
-                  {renderSkillsAssessment()}
                 </div>
               </div>
 
-              {/* Update the detailed analytics section */}
-              <div className="space-y-8">
-                {/* Quick Stats Grid - Full Width */}
-                <div className="bg-white rounded-xl border p-6">
-                  <div className="grid grid-cols-4 gap-6">
-                    <div className="bg-blue-50 rounded-xl p-4">
-                      <div className="text-sm text-blue-600 font-medium">Duration</div>
-                      <div className="text-2xl font-bold text-blue-700 mt-1">{analytics.duration}</div>
-                    </div>
-                    <div className="bg-green-50 rounded-xl p-4">
-                      <div className="text-sm text-green-600 font-medium">Questions</div>
-                      <div className="text-2xl font-bold text-green-700 mt-1">{analytics.questionsAsked}</div>
-                    </div>
-                    <div className="bg-purple-50 rounded-xl p-4">
-                      <div className="text-sm text-purple-600 font-medium">Technical Score</div>
-                      <div className="text-2xl font-bold text-purple-700 mt-1">{analytics.technicalScore}%</div>
-                    </div>
-                    <div className="bg-orange-50 rounded-xl p-4">
-                      <div className="text-sm text-orange-600 font-medium">Communication</div>
-                      <div className="text-2xl font-bold text-orange-700 mt-1">{analytics.communicationScore}%</div>
+              {/* Skills Assessment - Full Width */}
+              <div className="bg-white rounded-xl border p-6">
+                <h3 className="text-xl font-semibold mb-6">Skills Assessment</h3>
+                {renderSkillsAssessment()}
+              </div>
+
+              {/* Quick Stats Grid - Full Width */}
+              <div className="bg-white rounded-xl border p-6">
+                <div className="grid grid-cols-4 gap-6">
+                  <div className="bg-blue-50 rounded-xl p-4">
+                    <div className="text-sm text-blue-600 font-medium">Duration</div>
+                    <div className="text-2xl font-bold text-blue-700 mt-1">{analytics.duration}</div>
+                  </div>
+                  <div className="bg-green-50 rounded-xl p-4">
+                    <div className="text-sm text-green-600 font-medium">Questions</div>
+                    <div className="text-2xl font-bold text-green-700 mt-1">{analytics.questionsAsked}</div>
+                  </div>
+                  <div className="bg-purple-50 rounded-xl p-4">
+                    <div className="text-sm text-purple-600 font-medium">Technical Score</div>
+                    <div className="text-2xl font-bold text-purple-700 mt-1">{analytics.technicalScore}%</div>
+                  </div>
+                  <div className="bg-orange-50 rounded-xl p-4">
+                    <div className="text-sm text-orange-600 font-medium">Communication</div>
+                    <div className="text-2xl font-bold text-orange-700 mt-1">{analytics.communicationScore}%</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Performance Overview */}
+              <div className="grid grid-cols-2 gap-8">
+                {/* Left Column */}
+                <div className="space-y-6">
+                  <div className="bg-white rounded-xl border p-6">
+                    <h3 className="text-lg font-semibold mb-4">Key Strengths</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {analytics.keyStrengths.map((strength, index) => (
+                        <div key={index} className="flex items-center text-sm bg-green-50 rounded-lg p-3">
+                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
+                          <span>{strength}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
 
-                {/* Performance Overview */}
-                <div className="grid grid-cols-2 gap-8">
-                  {/* Left Column */}
-                  <div className="space-y-6">
-                    <div className="bg-white rounded-xl border p-6">
-                      <h3 className="text-lg font-semibold mb-4">Technical Assessment</h3>
-                      <div className="space-y-4">
-                        {[
-                          { label: 'Coding', score: analytics.codingScore },
-                          { label: 'System Design', score: analytics.systemDesign },
-                          { label: 'Algorithms', score: analytics.algorithmScore }
-                        ].map((item, index) => (
-                          <div key={index} className="space-y-2">
-                            <div className="flex justify-between text-sm">
-                              <span>{item.label}</span>
-                              <span className="font-medium">{item.score}%</span>
-                            </div>
-                            <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
-                              <div 
-                                className="h-full bg-blue-500 rounded-full"
-                                style={{ width: `${item.score}%` }}
-                              />
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl border p-6">
-                      <h3 className="text-lg font-semibold mb-4">Key Strengths</h3>
-                      <div className="grid grid-cols-2 gap-3">
-                        {analytics.keyStrengths.map((strength, index) => (
-                          <div key={index} className="flex items-center text-sm bg-green-50 rounded-lg p-3">
-                            <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                            <span>{strength}</span>
-                          </div>
-                        ))}
-                      </div>
+                {/* Right Column */}
+                <div className="space-y-6">
+                  <div className="bg-white rounded-xl border p-6">
+                    <h3 className="text-lg font-semibold mb-4">Areas for Improvement</h3>
+                    <div className="space-y-3">
+                      {analytics.areasOfImprovement.map((area, index) => (
+                        <div key={index} className="flex items-center text-sm bg-red-50 rounded-lg p-3">
+                          <XCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
+                          <span>{area}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
 
-                  {/* Right Column */}
-                  <div className="space-y-6">
-                    <div className="bg-white rounded-xl border p-6">
-                      <h3 className="text-lg font-semibold mb-4">Detailed Feedback</h3>
-                      <div className="space-y-4">
-                        {Object.entries(analytics.detailedFeedback).map(([key, value]) => (
-                          <div key={key} className="space-y-2">
-                            <h4 className="font-medium capitalize">{key}</h4>
-                            <p className="text-sm text-gray-600">{value}</p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="bg-white rounded-xl border p-6">
-                      <h3 className="text-lg font-semibold mb-4">Areas for Improvement</h3>
-                      <div className="space-y-3">
-                        {analytics.areasOfImprovement.map((area, index) => (
-                          <div key={index} className="flex items-center text-sm bg-red-50 rounded-lg p-3">
-                            <XCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
-                            <span>{area}</span>
-                          </div>
-                        ))}
-                      </div>
+                  <div className="bg-white rounded-xl border p-6">
+                    <h3 className="text-lg font-semibold mb-4">Detailed Feedback</h3>
+                    <div className="space-y-4">
+                      {Object.entries(analytics.detailedFeedback).map(([key, value]) => (
+                        <div key={key} className="space-y-2">
+                          <h4 className="font-medium capitalize">{key}</h4>
+                          <p className="text-sm text-gray-600">{value}</p>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Interview Summary Stats */}
-                <div className="bg-white rounded-xl border p-6">
-                  <div className="grid grid-cols-3 gap-8">
-                    <div className="flex items-center space-x-4">
-                      <Clock className="w-8 h-8 text-gray-400" />
-                      <div>
-                        <div className="text-sm text-gray-500">Duration</div>
-                        <div className="text-lg font-medium mt-1">{analytics.duration}</div>
-                      </div>
+              {/* Interview Summary Stats */}
+              <div className="bg-white rounded-xl border p-6">
+                <div className="grid grid-cols-3 gap-8">
+                  <div className="flex items-center space-x-4">
+                    <Clock className="w-8 h-8 text-gray-400" />
+                    <div>
+                      <div className="text-sm text-gray-500">Duration</div>
+                      <div className="text-lg font-medium mt-1">{analytics.duration}</div>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <MessageCircle className="w-8 h-8 text-gray-400" />
-                      <div>
-                        <div className="text-sm text-gray-500">Questions Asked</div>
-                        <div className="text-lg font-medium mt-1">{analytics.questionsAsked}</div>
-                      </div>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <MessageCircle className="w-8 h-8 text-gray-400" />
+                    <div>
+                      <div className="text-sm text-gray-500">Questions Asked</div>
+                      <div className="text-lg font-medium mt-1">{analytics.questionsAsked}</div>
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <BarChart className="w-8 h-8 text-gray-400" />
-                      <div>
-                        <div className="text-sm text-gray-500">Overall Performance</div>
-                        <div className="text-lg font-medium mt-1">Above Average</div>
-                      </div>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <BarChart className="w-8 h-8 text-gray-400" />
+                    <div>
+                      <div className="text-sm text-gray-500">Overall Performance</div>
+                      <div className="text-lg font-medium mt-1">Above Average</div>
                     </div>
                   </div>
                 </div>
