@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play, Pause, Volume2, VolumeX, ThumbsUp, ThumbsDown, Briefcase, User as UserIcon, ArrowRight } from 'lucide-react';
+import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play, Pause, Volume2, VolumeX, ThumbsUp, ThumbsDown, Briefcase, User as UserIcon, ArrowRight, IndianRupee } from 'lucide-react';
 import InterviewTabContent from './InterviewTabContent';
 import { MOCK_DATA } from '../data/mockData';
 import InterviewDetailsCard from './InterviewDetailsCard';
@@ -205,6 +205,13 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     }
   };
 
+  // Add this function to generate random salary in lakhs
+  const generateRandomSalary = (min, max) => {
+    const lakhs = Math.floor(Math.random() * (max - min + 1)) + min;
+    const thousands = Math.floor(Math.random() * 100);
+    return `₹${lakhs},${thousands.toString().padStart(2, '0')},000`;
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] overflow-hidden">
       <div className="h-full flex items-center justify-center p-4">
@@ -325,7 +332,55 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                 </div>
               </div>
 
-              {/* Skills Assessment - Full Width */}
+              {/* Compensation Analysis - Moved up */}
+              <div className="bg-white rounded-xl border p-6">
+                <h3 className="text-xl font-semibold mb-6 flex items-center">
+                  <IndianRupee className="w-6 h-6 mr-2 text-green-600" />
+                  Compensation Analysis
+                </h3>
+                <div className="grid grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <div className="text-sm text-gray-600">Expected CTC</div>
+                    <div className="text-xl font-bold text-gray-900">
+                      {generateRandomSalary(25, 35)} <span className="text-sm font-normal">per annum</span>
+                    </div>
+                    <div className="text-xs text-gray-500">As per candidate's expectation</div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="text-sm text-gray-600">Recommended CTC</div>
+                    <div className="text-xl font-bold text-blue-600">
+                      {generateRandomSalary(22, 32)} <span className="text-sm font-normal">per annum</span>
+                    </div>
+                    <div className="text-xs text-gray-500">Based on performance & experience</div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="text-sm text-gray-600">Budget Range</div>
+                    <div className="text-xl font-bold text-purple-600">
+                      {generateRandomSalary(20, 30)} - {generateRandomSalary(25, 35)}
+                    </div>
+                    <div className="text-xs text-gray-500">Approved budget for this role</div>
+                  </div>
+                </div>
+
+                {/* Compensation Insights */}
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
+                  <h4 className="font-medium text-blue-800 mb-2">AI Compensation Insights</h4>
+                  <div className="text-sm text-blue-700">
+                    Based on the candidate's performance (
+                    <span className="font-medium">{candidateData.overallScore}%</span>
+                    ), market standards, and internal parity, the recommended CTC is optimal. 
+                    {candidateData.overallScore >= 85 
+                      ? " Consider offering at the higher end of the budget range given the exceptional performance."
+                      : candidateData.overallScore >= 70
+                      ? " The recommended CTC aligns well with the candidate's demonstrated skills and experience."
+                      : " Consider negotiating towards the lower end of the budget range."}
+                  </div>
+                </div>
+              </div>
+
+              {/* Skills Assessment */}
               <div className="bg-white rounded-xl border p-6">
                 <h3 className="text-xl font-semibold mb-6">Skills Assessment</h3>
                 {renderSkillsAssessment()}
