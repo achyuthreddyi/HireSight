@@ -18,7 +18,8 @@ import {
   ChartBar,
   Settings,
   FileText,
-  Users as UsersIcon
+  Users as UsersIcon,
+  BarChart2
 } from 'lucide-react';
 import UserDetailsModal from './UserDetailsModal';
 import MOCK_DATA from '../data/mockData';
@@ -26,6 +27,7 @@ import SurveyModal from './SurveyModal';
 import DashboardContent from './DashboardContent';
 import Placeholder from './Placeholder';
 import TeamContent from './TeamContent';
+import InterviewsDetails from './InterviewsDetails';
 
 const NAVIGATION_ITEMS = [
   {
@@ -62,6 +64,11 @@ const NAVIGATION_ITEMS = [
     id: 'settings',
     label: 'Settings',
     icon: Settings
+  },
+  {
+    id: 'interviews',
+    label: 'Interviewers Dashboard',
+    icon: BarChart2
   }
 ];
 
@@ -526,6 +533,8 @@ const Dashboard = () => {
                 />
               ) : activeNavItem === 'team' ? (
                 <TeamContent />
+              ) : activeNavItem === 'interviews' ? (
+                <InterviewsDetails />
               ) : (
                 // Position-specific Candidates View
                 <div className="bg-white rounded-lg shadow-sm border">
