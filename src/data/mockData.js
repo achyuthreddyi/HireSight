@@ -291,7 +291,9 @@ export const MOCK_DATA = {
 
   interviewVideos: {
     video1: '/videos/video1.mp4',
-    video2: '/videos/video2.mp4'
+    video2: '/videos/video2.mp4',
+    audio1: '/videos/screening.mp3',
+    audio2: '/videos/screening.mp3'
   },
 
   screeningCandidates: [
@@ -303,7 +305,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'hire'
+      recommendation: 'hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 2,
@@ -313,7 +316,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'upcoming',
       type: 'reminder',
-      recommendation: 'strong hire'
+      recommendation: 'strong hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 3,
@@ -323,7 +327,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'rejected',
       type: 'feedback',
-      recommendation: 'rejected'
+      recommendation: 'rejected',
+      audioUrl: '/videos/feedback_call.mp3'
     },
     {
       id: 4,
@@ -333,7 +338,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'try'
+      recommendation: 'try',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 5,
@@ -343,7 +349,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'strong hire'
+      recommendation: 'strong hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 6,
@@ -353,7 +360,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'upcoming',
       type: 'reminder',
-      recommendation: 'hire'
+      recommendation: 'hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 7,
@@ -363,7 +371,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'rejected',
       type: 'feedback',
-      recommendation: 'rejected'
+      recommendation: 'rejected',
+      audioUrl: '/videos/feedback_call.mp3'
     },
     {
       id: 8,
@@ -373,7 +382,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'try'
+      recommendation: 'try',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 9,
@@ -383,7 +393,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'upcoming',
       type: 'reminder',
-      recommendation: 'hire'
+      recommendation: 'hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 10,
@@ -393,7 +404,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'strong hire'
+      recommendation: 'strong hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 11,
@@ -403,7 +415,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'rejected',
       type: 'feedback',
-      recommendation: 'rejected'
+      recommendation: 'rejected',
+      audioUrl: '/videos/feedback_call.mp3'
     },
     {
       id: 12,
@@ -413,7 +426,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'try'
+      recommendation: 'try',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 13,
@@ -423,7 +437,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'upcoming',
       type: 'reminder',
-      recommendation: 'hire'
+      recommendation: 'hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 14,
@@ -433,7 +448,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'strong hire'
+      recommendation: 'strong hire',
+      audioUrl: '/videos/screening.mp3'
     },
     {
       id: 15,
@@ -443,7 +459,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'rejected',
       type: 'feedback',
-      recommendation: 'rejected'
+      recommendation: 'rejected',
+      audioUrl: '/videos/feedback_call.mp3'
     },
     {
       id: 50,
@@ -453,7 +470,8 @@ export const MOCK_DATA = {
       score: Math.floor(Math.random() * 100) + 1,
       nextSteps: 'scheduled',
       type: 'profiling',
-      recommendation: 'hire'
+      recommendation: 'hire',
+      audioUrl: '/videos/screening.mp3'
     }
   ]
 };

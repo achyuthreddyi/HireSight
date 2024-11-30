@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Phone, Calendar, AlertCircle, ThumbsUp, ThumbsDown, ArrowRight, Search, Filter, ArrowUpDown, Check } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { Phone, Calendar, AlertCircle, ThumbsUp, ThumbsDown, ArrowRight, Search, Filter, ArrowUpDown, Check, Play, Pause, Volume2 } from 'lucide-react';
 import MOCK_DATA from '../data/mockData';
 
 const getStatusColor = (status) => {
@@ -84,6 +84,45 @@ const getActionButton = (nextSteps, onAction) => {
     default:
       return null;
   }
+};
+
+// Add AudioPlayer component
+const AudioPlayer = ({ audioUrl }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  return (
+    <div className="flex items-center space-x-2">
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        onEnded={() => setIsPlaying(false)}
+        className="hidden"
+      />
+      <button
+        onClick={togglePlay}
+        className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+      >
+        {isPlaying ? (
+          <Pause className="w-5 h-5 text-gray-600" />
+        ) : (
+          <Play className="w-5 h-5 text-gray-600" />
+        )}
+      </button>
+      <Volume2 className="w-4 h-4 text-gray-400" />
+    </div>
+  );
 };
 
 const ScreeningRound = () => {
@@ -223,6 +262,9 @@ const ScreeningRound = () => {
                     Recommendation
                   </th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Audio
+                  </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Action
                   </th>
                 </tr>
@@ -273,6 +315,9 @@ const ScreeningRound = () => {
                         {getRecommendationIcon(candidate.recommendation)}
                         <span className="ml-2 text-sm text-gray-900">{candidate.recommendation}</span>
                       </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <AudioPlayer audioUrl={MOCK_DATA.interviewVideos.audio1} />
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       {getActionButton(candidate.nextSteps, handleAction)}
