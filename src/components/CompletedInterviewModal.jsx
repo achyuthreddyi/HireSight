@@ -427,7 +427,112 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                 </div>
               </div>
 
-              {/* Interview Summary Stats */}
+              {/* Previous Rounds Comments and Current Feedback */}
+              <div className="grid grid-cols-2 gap-6">
+                {/* Previous Comments */}
+                <div className="bg-[#fffbeb] rounded-xl border border-amber-200 p-6">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5 text-amber-600" />
+                    Previous Round Comments
+                  </h3>
+                  <div className="space-y-4">
+                    <div className="space-y-3">
+                      <div className="border-b border-amber-200 pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <UserIcon className="w-4 h-4 text-amber-600" />
+                            <div>
+                              <span className="font-medium text-amber-800">Technical Round</span>
+                              <div className="text-xs text-amber-600">by Amitabh Bachchan (Senior Architecture Lead)</div>
+                            </div>
+                          </div>
+                          <span className="text-xs text-amber-600">2 days ago</span>
+                        </div>
+                        <p className="text-sm text-amber-900 font-[cursive]">
+                          Excellent problem-solving approach. Demonstrated strong understanding of system design principles. 
+                          Could improve on SQL query optimization. Overall, a strong candidate with good potential.
+                        </p>
+                      </div>
+
+                      <div className="border-b border-amber-200 pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <Briefcase className="w-4 h-4 text-amber-600" />
+                            <div>
+                              <span className="font-medium text-amber-800">HR Round</span>
+                              <div className="text-xs text-amber-600">by Madhuri Dixit (Product Lead)</div>
+                            </div>
+                          </div>
+                          <span className="text-xs text-amber-600">4 days ago</span>
+                        </div>
+                        <p className="text-sm text-amber-900 font-[cursive]">
+                          Great cultural fit! Shows enthusiasm for learning and teamwork. 
+                          Communication skills are top-notch. Previous project experience aligns well with our needs.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Current Round Feedback Form */}
+                <div className="bg-white rounded-xl border p-6">
+                  <h3 className="text-lg font-semibold mb-4">Add Your Feedback</h3>
+                  <div className="space-y-4">
+                    {/* Comment Type */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Feedback Type
+                      </label>
+                      <select 
+                        className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        defaultValue="technical"
+                      >
+                        <option value="technical">Technical Assessment</option>
+                        <option value="behavioral">Behavioral Assessment</option>
+                        <option value="cultural">Cultural Fit</option>
+                        <option value="overall">Overall Feedback</option>
+                      </select>
+                    </div>
+
+                    {/* Detailed Comments */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Detailed Comments
+                      </label>
+                      <textarea 
+                        className="w-full h-32 px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                        placeholder="Enter your detailed feedback here..."
+                      />
+                    </div>
+
+                    {/* Rating */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Overall Rating
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        {[1, 2, 3, 4, 5].map((rating) => (
+                          <button
+                            key={rating}
+                            className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                          >
+                            {rating}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Submit Button */}
+                    <button
+                      className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center"
+                    >
+                      Submit Feedback
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Interview Summary Stats - Moved to the end */}
               <div className="bg-white rounded-xl border p-6">
                 <div className="grid grid-cols-3 gap-8">
                   <div className="flex items-center space-x-4">
