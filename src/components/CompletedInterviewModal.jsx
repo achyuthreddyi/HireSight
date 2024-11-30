@@ -40,28 +40,67 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     }
   };
 
-  // Move getRecommendationDetails before it's used
-  const getRecommendationDetails = (confidence) => {
-    if (confidence >= 75) {
+  // Update the candidateData initialization with random overall score
+  const generateRandomScore = () => {
+    // Generate a random number between 40 and 95
+    return Math.floor(Math.random() * 55) + 40;
+  };
+
+  const candidateData = {
+    name: "John Smith",
+    role: "Senior Frontend Developer",
+    email: "john.smith@email.com",
+    phone: "+1 234 567 8900",
+    currentCompany: "Tech Solutions Inc.",
+    experience: 8,
+    completedRounds: 3,
+    totalDuration: "2h 15m",
+    overallScore: generateRandomScore() // Random score between 40-95
+  };
+
+  // Update scores based on overall performance
+  const scores = {
+    technical: Math.min(candidateData.overallScore + Math.floor(Math.random() * 10), 98),
+    communication: Math.min(candidateData.overallScore + Math.floor(Math.random() * 10), 98),
+    problemSolving: Math.min(candidateData.overallScore + Math.floor(Math.random() * 10), 98),
+    cultureFit: Math.min(candidateData.overallScore + Math.floor(Math.random() * 10), 98)
+  };
+
+  // Now define getRecommendationDetails
+  const getRecommendationDetails = (overallScore) => {
+    if (overallScore >= 85) {
       return {
         status: 'Strong Hire',
         icon: <ThumbsUp className="w-5 h-5" />,
-        colors: 'bg-green-100 text-green-700'
+        colors: 'bg-green-100 text-green-700',
+        message: 'Excellent candidate with strong technical and soft skills.'
       };
-    } else if (confidence >= 50) {
+    } else if (overallScore >= 70) {
+      return {
+        status: 'Consider Hire',
+        icon: <ArrowRight className="w-5 h-5" />,
+        colors: 'bg-blue-100 text-blue-700',
+        message: 'Good potential, some areas need development.'
+      };
+    } else if (overallScore >= 50) {
       return {
         status: 'Consider Other Role',
         icon: <ArrowRight className="w-5 h-5" />,
-        colors: 'bg-yellow-100 text-yellow-700'
+        colors: 'bg-yellow-100 text-yellow-700',
+        message: 'May be better suited for a different position.'
       };
     } else {
       return {
         status: 'Do Not Hire',
         icon: <ThumbsDown className="w-5 h-5" />,
-        colors: 'bg-red-100 text-red-700'
+        colors: 'bg-red-100 text-red-700',
+        message: 'Does not meet minimum requirements.'
       };
     }
   };
+
+  // Now we can use it
+  const recommendation = getRecommendationDetails(candidateData.overallScore);
 
   // Generate random values once when component mounts
   const [initialValues] = useState(() => ({
@@ -82,9 +121,6 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
       }
     }
   }));
-
-  // Now we can use getRecommendationDetails
-  const recommendation = getRecommendationDetails(initialValues.confidence);
 
   // Update the skills section to use initialValues
   const renderSkillsAssessment = () => (
@@ -167,26 +203,6 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     if (videoRef.current) {
       setCurrentTime(Math.floor(videoRef.current.currentTime));
     }
-  };
-
-  // Inside the component, add mock candidate data
-  const candidateData = {
-    name: "John Smith",
-    role: "Senior Frontend Developer",
-    email: "john.smith@email.com",
-    phone: "+1 234 567 8900",
-    currentCompany: "Tech Solutions Inc.",
-    experience: 8,
-    completedRounds: 3,
-    totalDuration: "2h 15m",
-    overallScore: 88
-  };
-
-  const scores = {
-    technical: 85,
-    communication: 92,
-    problemSolving: 88,
-    cultureFit: 90
   };
 
   return (
