@@ -317,6 +317,7 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
 
               {/* Quick Stats Grid - Full Width */}
               <div className="bg-white rounded-xl border p-6">
+                <h3 className="text-xl font-semibold mb-6">Interview Metrics</h3>
                 <div className="grid grid-cols-4 gap-6">
                   <div className="bg-blue-50 rounded-xl p-4">
                     <div className="text-sm text-blue-600 font-medium">Duration</div>
