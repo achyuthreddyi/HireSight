@@ -20,7 +20,8 @@ import {
   FileText,
   Users as UsersIcon,
   BarChart2,
-  Mic
+  Mic,
+  PlusCircle
 } from 'lucide-react';
 import UserDetailsModal from './UserDetailsModal';
 import MOCK_DATA from '../data/mockData';
@@ -32,6 +33,7 @@ import InterviewsDetails from './InterviewsDetails';
 import CandidatesDashboard from './CandidatesDashboard';
 import Logo from '../assets/logo';
 import ScreeningRound from './ScreeningRound';
+import CreatePosition from './CreatePosition';
 
 const NAVIGATION_ITEMS = [
   {
@@ -58,6 +60,11 @@ const NAVIGATION_ITEMS = [
     id: 'voiceBot',
     label: 'Voice Bot',
     icon: Mic
+  },
+  {
+    id: 'createPosition',
+    label: 'Create Position',
+    icon: PlusCircle
   },
   {
     id: 'analytics',
@@ -461,6 +468,8 @@ const Dashboard = () => {
         return <CandidatesDashboard />;
       case 'voiceBot':
         return <ScreeningRound />;
+      case 'createPosition':
+        return <CreatePosition />;
       default:
         return (
           <div className="bg-white rounded-lg shadow-sm border">
