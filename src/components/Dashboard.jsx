@@ -29,6 +29,7 @@ import Placeholder from './Placeholder';
 import TeamContent from './TeamContent';
 import InterviewsDetails from './InterviewsDetails';
 import CandidatesDashboard from './CandidatesDashboard';
+import Logo from '../assets/logo';
 
 const NAVIGATION_ITEMS = [
   {
@@ -296,7 +297,10 @@ const Dashboard = () => {
       {/* Header */}
       <header className="bg-white shadow-sm fixed w-full top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-          <div className="text-2xl font-bold text-blue-600">ConvinEdge</div>
+          <div className="flex items-center space-x-2">
+            <Logo className="w-8 h-8 text-blue-600" />
+            <span className="text-2xl font-bold text-blue-600">HireSight</span>
+          </div>
           <div className="flex items-center space-x-4">
             <div className="flex items-center space-x-2">
               <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
