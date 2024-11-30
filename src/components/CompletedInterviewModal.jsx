@@ -338,47 +338,127 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                 </div>
               </div>
 
-              {/* Performance Overview */}
-              <div className="grid grid-cols-2 gap-8">
-                {/* Left Column */}
-                <div className="space-y-6">
+              {/* Right Column */}
+              <div className="space-y-6">
+                {/* Key Strengths and Areas for Improvement */}
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Key Strengths */}
                   <div className="bg-white rounded-xl border p-6">
                     <h3 className="text-lg font-semibold mb-4">Key Strengths</h3>
-                    <div className="grid grid-cols-2 gap-3">
-                      {analytics.keyStrengths.map((strength, index) => (
-                        <div key={index} className="flex items-center text-sm bg-green-50 rounded-lg p-3">
-                          <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                          <span>{strength}</span>
-                        </div>
-                      ))}
+                    <div className="grid grid-cols-1 gap-2">
+                      {analytics.keyStrengths.map((strength, index) => {
+                        const score = Math.floor(Math.random() * 10) + 85; // Random score between 85-95
+                        return (
+                          <div 
+                            key={index} 
+                            className="flex items-center justify-between text-sm bg-green-50 rounded-md p-2"
+                          >
+                            <div className="flex items-center">
+                              <CheckCircle className="w-3.5 h-3.5 text-green-500 mr-2 flex-shrink-0" />
+                              <span className="text-xs text-gray-700">{strength}</span>
+                            </div>
+                            <span className="text-xs font-medium text-green-600">{score}%</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+
+                  {/* Areas for Improvement */}
+                  <div className="bg-white rounded-xl border p-6">
+                    <h3 className="text-lg font-semibold mb-4">Areas for Improvement</h3>
+                    <div className="grid grid-cols-1 gap-2">
+                      {analytics.areasOfImprovement.map((area, index) => {
+                        const score = Math.floor(Math.random() * 15) + 35; // Random score between 35-50
+                        return (
+                          <div 
+                            key={index} 
+                            className="flex items-center justify-between text-sm bg-red-50 rounded-md p-2"
+                          >
+                            <div className="flex items-center">
+                              <XCircle className="w-3.5 h-3.5 text-red-500 mr-2 flex-shrink-0" />
+                              <span className="text-xs text-gray-700">{area}</span>
+                            </div>
+                            <span className="text-xs font-medium text-red-600">{score}%</span>
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
 
-                {/* Right Column */}
-                <div className="space-y-6">
-                  <div className="bg-white rounded-xl border p-6">
-                    <h3 className="text-lg font-semibold mb-4">Areas for Improvement</h3>
+                {/* Previous Rounds Comments Card */}
+                <div className="bg-[#fffbeb] rounded-xl border border-amber-200 p-6">
+                  <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+                    <MessageCircle className="w-5 h-5 text-amber-600" />
+                    Previous Round Comments
+                  </h3>
+                  <div className="space-y-4">
                     <div className="space-y-3">
-                      {analytics.areasOfImprovement.map((area, index) => (
-                        <div key={index} className="flex items-center text-sm bg-red-50 rounded-lg p-3">
-                          <XCircle className="w-4 h-4 text-red-500 mr-2 flex-shrink-0" />
-                          <span>{area}</span>
+                      <div className="border-b border-amber-200 pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <UserIcon className="w-4 h-4 text-amber-600" />
+                            <div>
+                              <span className="font-medium text-amber-800">Technical Round</span>
+                              <div className="text-xs text-amber-600">by Amitabh Bachchan (Senior Architecture Lead)</div>
+                            </div>
+                          </div>
+                          <span className="text-xs text-amber-600">2 days ago</span>
                         </div>
-                      ))}
+                        <p className="text-sm text-amber-900 font-[cursive]">
+                          Excellent problem-solving approach. Demonstrated strong understanding of system design principles. 
+                          Could improve on SQL query optimization. Overall, a strong candidate with good potential.
+                        </p>
+                      </div>
+
+                      <div className="border-b border-amber-200 pb-3">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <Briefcase className="w-4 h-4 text-amber-600" />
+                            <div>
+                              <span className="font-medium text-amber-800">HR Round</span>
+                              <div className="text-xs text-amber-600">by Madhuri Dixit (Product Lead)</div>
+                            </div>
+                          </div>
+                          <span className="text-xs text-amber-600">4 days ago</span>
+                        </div>
+                        <p className="text-sm text-amber-900 font-[cursive]">
+                          Great cultural fit! Shows enthusiasm for learning and teamwork. 
+                          Communication skills are top-notch. Previous project experience aligns well with our needs.
+                        </p>
+                      </div>
+
+                      <div className="pb-2">
+                        <div className="flex items-center justify-between mb-2">
+                          <div className="flex items-center gap-2">
+                            <UserIcon className="w-4 h-4 text-amber-600" />
+                            <div>
+                              <span className="font-medium text-amber-800">Initial Screening</span>
+                              <div className="text-xs text-amber-600">by Shah Rukh Khan (Technical Director)</div>
+                            </div>
+                          </div>
+                          <span className="text-xs text-amber-600">1 week ago</span>
+                        </div>
+                        <p className="text-sm text-amber-900 font-[cursive]">
+                          Strong fundamentals in JavaScript and React. Good understanding of modern web development practices.
+                          Shows promise in architectural thinking. Recommended for next round.
+                        </p>
+                      </div>
                     </div>
                   </div>
+                </div>
 
-                  <div className="bg-white rounded-xl border p-6">
-                    <h3 className="text-lg font-semibold mb-4">Detailed Feedback</h3>
-                    <div className="space-y-4">
-                      {Object.entries(analytics.detailedFeedback).map(([key, value]) => (
-                        <div key={key} className="space-y-2">
-                          <h4 className="font-medium capitalize">{key}</h4>
-                          <p className="text-sm text-gray-600">{value}</p>
-                        </div>
-                      ))}
-                    </div>
+                {/* Detailed Feedback */}
+                <div className="bg-white rounded-xl border p-6">
+                  <h3 className="text-lg font-semibold mb-4">Detailed Feedback</h3>
+                  <div className="space-y-4">
+                    {Object.entries(analytics.detailedFeedback).map(([key, value]) => (
+                      <div key={key} className="space-y-2">
+                        <h4 className="font-medium capitalize">{key}</h4>
+                        <p className="text-sm text-gray-600">{value}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
