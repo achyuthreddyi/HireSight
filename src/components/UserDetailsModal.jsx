@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Calendar, User, Mail, Building, Clock, Send, MessageCircle } from 'lucide-react';
+import { X, Calendar, User, Mail, Building, Clock, Send, MessageCircle, Eye, Download, FileText, Archive } from 'lucide-react';
 import UpcomingInterviewModal from './UpcomingInterviewModal';
 import CompletedInterviewModal from './CompletedInterviewModal';
 import MOCK_DATA from '../data/mockData';
@@ -7,7 +7,9 @@ import MOCK_DATA from '../data/mockData';
 const TABS = [
   { id: 'rounds', label: 'Interview Rounds' },
   { id: 'conversation', label: 'Conversation' },
-  { id: 'schedule', label: 'Schedule Interview' }
+  { id: 'schedule', label: 'Schedule Interview' },
+  { id: 'User Details', label: 'User Details' },
+  { id: 'Documents', label: 'Documents' }
 ];
 
 const UserDetailsModal = ({ user, onClose }) => {
@@ -51,6 +53,222 @@ const UserDetailsModal = ({ user, onClose }) => {
 
     return slots;
   };
+
+  const renderUserDetails = () => (
+    <div className="space-y-6">
+      {/* Personal Information */}
+      <div className="bg-white rounded-lg border p-4">
+        <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm text-gray-600">Full Name</label>
+            <div className="font-medium">{user.name}</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Email</label>
+            <div className="font-medium">{user.email}</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Phone</label>
+            <div className="font-medium">{user.phone}</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Location</label>
+            <div className="font-medium">Bangalore, India</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Professional Information */}
+      <div className="bg-white rounded-lg border p-4">
+        <h3 className="text-lg font-semibold mb-4">Professional Details</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm text-gray-600">Current Company</label>
+            <div className="font-medium">TechCorp Solutions</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Total Experience</label>
+            <div className="font-medium">5 years 3 months</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Current Role</label>
+            <div className="font-medium">Senior Frontend Developer</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Notice Period</label>
+            <div className="font-medium">60 days</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Compensation Details */}
+      <div className="bg-white rounded-lg border p-4">
+        <h3 className="text-lg font-semibold mb-4">Compensation Details</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm text-gray-600">Current CTC</label>
+            <div className="font-medium">₹18,00,000 per annum</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Expected CTC</label>
+            <div className="font-medium">₹25,00,000 per annum</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Last Hike</label>
+            <div className="font-medium">15% (6 months ago)</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Expected Joining Time</label>
+            <div className="font-medium">After notice period</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Skills & Expertise */}
+      <div className="bg-white rounded-lg border p-4">
+        <h3 className="text-lg font-semibold mb-4">Skills & Expertise</h3>
+        <div className="space-y-4">
+          <div>
+            <label className="text-sm text-gray-600">Primary Skills</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {['React', 'JavaScript', 'TypeScript', 'Node.js', 'Redux'].map((skill) => (
+                <span 
+                  key={skill}
+                  className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Secondary Skills</label>
+            <div className="flex flex-wrap gap-2 mt-1">
+              {['AWS', 'Docker', 'MongoDB', 'GraphQL', 'Jest'].map((skill) => (
+                <span 
+                  key={skill}
+                  className="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm"
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Additional Information */}
+      <div className="bg-white rounded-lg border p-4">
+        <h3 className="text-lg font-semibold mb-4">Additional Information</h3>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="text-sm text-gray-600">Preferred Work Location</label>
+            <div className="font-medium">Bangalore, Hybrid</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Willing to Relocate</label>
+            <div className="font-medium">Yes</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Other Offers</label>
+            <div className="font-medium">2 offers in hand</div>
+          </div>
+          <div>
+            <label className="text-sm text-gray-600">Reason for Change</label>
+            <div className="font-medium">Career Growth</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  const renderDocuments = () => (
+    <div className="space-y-6">
+      {/* Resume Section */}
+      <div className="bg-white rounded-lg border p-4">
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-lg font-semibold">Resume</h3>
+          <div className="flex items-center space-x-2">
+            <button
+              onClick={() => window.open('/resume.pdf', '_blank')}
+              className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors flex items-center"
+            >
+              <Eye className="w-4 h-4 mr-1.5" />
+              View
+            </button>
+            <button
+              onClick={() => {/* Handle download */}}
+              className="px-3 py-1.5 text-sm bg-green-50 text-green-600 rounded-lg hover:bg-green-100 transition-colors flex items-center"
+            >
+              <Download className="w-4 h-4 mr-1.5" />
+              Download
+            </button>
+          </div>
+        </div>
+        
+        {/* Resume Preview */}
+        <div className="border rounded-lg p-4 bg-gray-50">
+          <div className="aspect-[3/4] bg-white rounded-lg shadow-sm border relative">
+            <div className="absolute inset-0 p-4">
+              {/* Resume Preview Content */}
+              <div className="space-y-4">
+                <div className="border-b pb-2">
+                  <h4 className="font-bold text-lg">{user.name}</h4>
+                  <p className="text-sm text-gray-600">{user.role}</p>
+                </div>
+                <div className="text-sm text-gray-700 space-y-1">
+                  <p>📧 {user.email}</p>
+                  <p>📱 {user.phone}</p>
+                  <p>📍 Bangalore, India</p>
+                </div>
+                {/* Add more resume content preview */}
+              </div>
+            </div>
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-white" />
+          </div>
+        </div>
+      </div>
+
+      {/* Other Documents */}
+      <div className="bg-white rounded-lg border p-4">
+        <h3 className="text-lg font-semibold mb-4">Other Documents</h3>
+        <div className="space-y-3">
+          {[
+            { name: 'Experience Certificate.pdf', size: '2.4 MB', type: 'PDF' },
+            { name: 'Previous Offer Letter.pdf', size: '1.8 MB', type: 'PDF' },
+            { name: 'Certifications.zip', size: '5.2 MB', type: 'ZIP' },
+          ].map((doc, index) => (
+            <div 
+              key={index}
+              className="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-50"
+            >
+              <div className="flex items-center space-x-3">
+                <div className="p-2 bg-gray-100 rounded">
+                  {doc.type === 'PDF' ? (
+                    <FileText className="w-5 h-5 text-red-500" />
+                  ) : (
+                    <Archive className="w-5 h-5 text-blue-500" />
+                  )}
+                </div>
+                <div>
+                  <p className="font-medium text-sm">{doc.name}</p>
+                  <p className="text-xs text-gray-500">{doc.size}</p>
+                </div>
+              </div>
+              <button
+                className="p-1.5 hover:bg-gray-100 rounded-lg transition-colors"
+                onClick={() => {/* Handle download */}}
+              >
+                <Download className="w-4 h-4 text-gray-500" />
+              </button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 
   const renderTabContent = () => {
     switch (activeTab) {
@@ -283,6 +501,12 @@ const UserDetailsModal = ({ user, onClose }) => {
             </div>
           </div>
         );
+
+      case 'User Details':
+        return renderUserDetails();
+
+      case 'Documents':
+        return renderDocuments();
 
       default:
         return null;
