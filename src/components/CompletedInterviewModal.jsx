@@ -3,6 +3,7 @@ import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarC
 import InterviewTabContent from './InterviewTabContent';
 import { MOCK_DATA } from '../data/mockData';
 import InterviewDetailsCard from './InterviewDetailsCard';
+import PerformanceScorecard from './PerformanceScorecard';
 
 const CompletedInterviewModal = ({ interview, onClose }) => {
   const { roundType, round } = interview;
@@ -211,6 +212,9 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     const thousands = Math.floor(Math.random() * 100);
     return `₹${lakhs},${thousands.toString().padStart(2, '0')},000`;
   };
+
+  // Add state for scorecard modal
+  const [showScorecard, setShowScorecard] = useState(false);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] overflow-hidden">
@@ -614,11 +618,23 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                       <div className="text-lg font-medium mt-1">{analytics.questionsAsked}</div>
                     </div>
                   </div>
-                  <div className="flex items-center space-x-4">
-                    <BarChart className="w-8 h-8 text-gray-400" />
-                    <div>
+                  <div 
+                    className="flex items-center space-x-4 cursor-pointer hover:bg-gray-50 p-3 rounded-lg transition-colors group"
+                    onClick={() => setShowScorecard(true)}
+                  >
+                    <BarChart className="w-8 h-8 text-gray-400 group-hover:text-blue-500 transition-colors" />
+                    <div className="flex-1">
                       <div className="text-sm text-gray-500">Overall Performance</div>
-                      <div className="text-lg font-medium mt-1">Above Average</div>
+                      <div className="flex items-center justify-between">
+                        <div className="text-lg font-medium mt-1">Above Average</div>
+                        <button
+                          onClick={() => setShowScorecard(true)}
+                          className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors flex items-center space-x-2"
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                          <span>View Details</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -627,6 +643,14 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
           </div>
         </div>
       </div>
+
+      {/* Add the modal at the end of the component */}
+      {showScorecard && (
+        <PerformanceScorecard 
+          performance={analytics}
+          onClose={() => setShowScorecard(false)}
+        />
+      )}
     </div>
   );
 };

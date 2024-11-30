@@ -1,6 +1,7 @@
-import React from 'react';
-import { ThumbsUp, ThumbsDown, Briefcase, User as UserIcon, ArrowRight, Mail, Phone, Building, Clock } from 'lucide-react';
+import React, { useState } from 'react';
+import { ThumbsUp, ThumbsDown, Briefcase, User as UserIcon, ArrowRight, Mail, Phone, Building, Clock, ChevronRight } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
+import PerformanceScorecard from './PerformanceScorecard';
 
 const InterviewDetailsCard = ({ candidate, recommendation, scores }) => {
   const pieData = [
@@ -17,6 +18,8 @@ const InterviewDetailsCard = ({ candidate, recommendation, scores }) => {
     if (score >= 70) return 'text-yellow-600 bg-yellow-50';
     return 'text-red-600 bg-red-50';
   };
+
+  const [showScorecard, setShowScorecard] = useState(false);
 
   return (
     <div className="space-y-6">
@@ -63,8 +66,17 @@ const InterviewDetailsCard = ({ candidate, recommendation, scores }) => {
         <div className="mb-6 p-4 rounded-xl border">
           <div className="flex items-center justify-between">
             <h3 className="font-semibold">Overall Performance</h3>
-            <div className={`text-2xl font-bold px-4 py-2 rounded-lg ${getScoreColor(candidate.overallScore)}`}>
-              {candidate.overallScore}%
+            <div className="flex items-center space-x-3">
+              <div className={`text-2xl font-bold px-4 py-2 rounded-lg ${getScoreColor(candidate.overallScore)}`}>
+                {candidate.overallScore}%
+              </div>
+              <button
+                onClick={() => setShowScorecard(true)}
+                className="px-3 py-1.5 text-sm bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors flex items-center space-x-2"
+              >
+                <ChevronRight className="w-4 h-4" />
+                <span>View Details</span>
+              </button>
             </div>
           </div>
           <div className="mt-3 h-3 bg-gray-100 rounded-full overflow-hidden">
@@ -136,6 +148,21 @@ const InterviewDetailsCard = ({ candidate, recommendation, scores }) => {
           </div>
         </div>
       </div>
+
+      {showScorecard && (
+        <PerformanceScorecard 
+          performance={{
+            overallScore: candidate.overallScore,
+            technicalScore: scores.technical,
+            communicationScore: scores.communication,
+            problemSolving: scores.problemSolving,
+            cultureFit: scores.cultureFit,
+            codingScore: Math.floor(Math.random() * 15) + 80,
+            systemDesign: Math.floor(Math.random() * 15) + 80,
+          }}
+          onClose={() => setShowScorecard(false)}
+        />
+      )}
     </div>
   );
 };
