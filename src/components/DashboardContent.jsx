@@ -131,7 +131,7 @@ const DashboardContent = () => {
 
         {/* Recent Hires */}
         <div>
-          <h3 className="text-lg font-semibold mb-4">Recent Hires</h3>
+          <h3 className="text-lg font-semibold mb-4">New Joinees</h3>
           <div className="border rounded-lg divide-y">
             {recentHires.map((hire, index) => (
               <div key={index} className="p-4 flex items-center justify-between">
