@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play, Pause, Volume2, VolumeX, ThumbsUp, ThumbsDown, Briefcase, User as UserIcon, ArrowRight } from 'lucide-react';
 import InterviewTabContent from './InterviewTabContent';
 import { MOCK_DATA } from '../data/mockData';
+import InterviewDetailsCard from './InterviewDetailsCard';
 
 const CompletedInterviewModal = ({ interview, onClose }) => {
   const { roundType, round } = interview;
@@ -168,6 +169,26 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     }
   };
 
+  // Inside the component, add mock candidate data
+  const candidateData = {
+    name: "John Smith",
+    role: "Senior Frontend Developer",
+    email: "john.smith@email.com",
+    phone: "+1 234 567 8900",
+    currentCompany: "Tech Solutions Inc.",
+    experience: 8,
+    completedRounds: 3,
+    totalDuration: "2h 15m",
+    overallScore: 88
+  };
+
+  const scores = {
+    technical: 85,
+    communication: 92,
+    problemSolving: 88,
+    cultureFit: 90
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] overflow-hidden">
       <div className="h-full flex items-center justify-center p-4">
@@ -281,29 +302,11 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                 {/* Right Column: Interview Details and Skills */}
                 <div className="lg:w-1/2">
                   {/* Interview Details Card */}
-                  <div className="bg-white rounded-xl border p-6 mb-6">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Briefcase className="w-5 h-5 text-gray-500" />
-                          <span className="font-medium text-gray-900">Senior Frontend Developer</span>
-                        </div>
-                        <div className="flex items-center space-x-2 text-gray-600">
-                          <UserIcon className="w-4 h-4" />
-                          <span>John Smith</span>
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-end">
-                        <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full ${recommendation.colors}`}>
-                          {recommendation.icon}
-                          <span className="font-medium">{recommendation.status}</span>
-                        </div>
-                        <div className="mt-2 text-sm text-gray-500">
-                          Confidence: {initialValues.confidence}%
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  <InterviewDetailsCard 
+                    candidate={candidateData}
+                    recommendation={recommendation}
+                    scores={scores}
+                  />
 
                   {/* Skills Assessment */}
                   {renderSkillsAssessment()}
