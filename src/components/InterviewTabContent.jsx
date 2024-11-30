@@ -1,20 +1,79 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
+import { interviewTranscript } from '../data/interviewTranscript';
 
-const InterviewTabContent = ({ activeTab }) => {
-  const transcriptData = [
-    { time: '00:00', speaker: 'Interviewer', text: "Hello! Thanks for joining us today. Could you start by introducing yourself and your background?" },
-    { time: '00:45', speaker: 'Candidate', text: "Hi, thank you for having me. I'm a full-stack developer with 5 years of experience, primarily working with React and Node.js..." },
-    { time: '02:15', speaker: 'Interviewer', text: "Great! Let's dive into system design. Could you explain how you'd design a real-time chat application?" },
-    { time: '03:00', speaker: 'Candidate', text: "I would approach this by first breaking down the requirements. For a real-time chat system, we'd need..." },
-    { time: '05:30', speaker: 'Interviewer', text: "Excellent breakdown. How would you handle scaling issues?" },
-    { time: '06:15', speaker: 'Candidate', text: "For scaling, I would implement a microservices architecture..." },
-    { time: '08:45', speaker: 'Interviewer', text: "Let's move to a coding problem. How would you implement a cache with LRU policy?" },
-    { time: '09:30', speaker: 'Candidate', text: "For an LRU cache, I would use a combination of a hash map and doubly linked list..." },
-    { time: '12:00', speaker: 'Interviewer', text: "Could you discuss a challenging project you've worked on?" },
-    { time: '12:45', speaker: 'Candidate', text: "One particularly challenging project was implementing a real-time analytics dashboard..." },
-    { time: '15:00', speaker: 'Interviewer', text: "How do you handle disagreements in your team?" }
-  ];
+const InterviewTabContent = ({ activeTab, currentTime, isPlaying }) => {
+  const transcriptData = interviewTranscript;
+
+  const scrollToActiveTranscript = (currentTime) => {
+    const activeTranscript = transcriptData.find(
+      entry => currentTime >= entry.startTime && currentTime < entry.endTime
+    );
+    
+    if (activeTranscript) {
+      const element = document.querySelector(`[data-time="${activeTranscript.startTime}"]`);
+      if (element) {
+        const container = element.closest('.transcript-container');
+        if (container) {
+          const targetTop = element.offsetTop - container.offsetHeight / 2;
+          const startTop = container.scrollTop;
+          const distance = targetTop - startTop;
+          const duration = 1000;
+          let start = null;
+
+          const animation = (currentTime) => {
+            if (start === null) start = currentTime;
+            const timeElapsed = currentTime - start;
+            const progress = Math.min(timeElapsed / duration, 1);
+
+            const easeInOutCubic = t => t < 0.5 
+              ? 4 * t * t * t 
+              : 1 - Math.pow(-2 * t + 2, 3) / 2;
+
+            container.scrollTop = startTop + (distance * easeInOutCubic(progress));
+
+            if (progress < 1) {
+              requestAnimationFrame(animation);
+            }
+          };
+
+          requestAnimationFrame(animation);
+        }
+      }
+    }
+  };
+
+  const renderTranscript = (currentTime) => (
+    <div className="bg-gray-50 rounded-lg p-4">
+      <div className="transcript-container space-y-3 text-sm text-gray-600 max-h-[400px] overflow-y-auto scroll-smooth">
+        {transcriptData.map((entry, index) => (
+          <div 
+            key={index}
+            data-time={entry.startTime}
+            className={`border-l-2 pl-4 py-1 transition-all duration-500 ease-in-out ${
+              currentTime >= entry.startTime && currentTime < entry.endTime
+                ? 'border-blue-500 bg-blue-50'
+                : 'border-gray-300'
+            }`}
+          >
+            <span className="text-gray-400">[{entry.time}]</span>
+            <span className="font-medium ml-2">{entry.speaker}:</span>
+            <p className="mt-1">{entry.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
+  useEffect(() => {
+    if (activeTab === 'Audio Transcript' && isPlaying) {
+      const scrollTimeout = setTimeout(() => {
+        scrollToActiveTranscript(currentTime);
+      }, 300);
+
+      return () => clearTimeout(scrollTimeout);
+    }
+  }, [currentTime, activeTab, isPlaying]);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -58,19 +117,7 @@ const InterviewTabContent = ({ activeTab }) => {
         );
 
       case 'Audio Transcript':
-        return (
-          <div className="bg-gray-50 rounded-lg p-4">
-            <div className="space-y-3 text-sm text-gray-600">
-              {transcriptData.map((entry, index) => (
-                <div key={index} className="border-l-2 border-gray-300 pl-4 py-1">
-                  <span className="text-gray-400">[{entry.time}]</span>
-                  <span className="font-medium ml-2">{entry.speaker}:</span>
-                  <p className="mt-1">{entry.text}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        );
+        return renderTranscript(currentTime);
 
       case 'Summary':
         return (

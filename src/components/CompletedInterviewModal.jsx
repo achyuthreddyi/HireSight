@@ -13,6 +13,7 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     const videos = [MOCK_DATA.interviewVideos.video1, MOCK_DATA.interviewVideos.video2];
     return videos[Math.floor(Math.random() * videos.length)];
   });
+  const [currentTime, setCurrentTime] = useState(0);
 
   // Mock analytics data (in real app, this would come from your backend)
   const analytics = {
@@ -66,6 +67,12 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     }
   };
 
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(Math.floor(videoRef.current.currentTime));
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] overflow-hidden">
       <div className="h-full flex items-center justify-center p-4">
@@ -99,6 +106,7 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                       src={selectedVideo}
                       onEnded={() => setIsPlaying(false)}
                       onError={handleVideoError}
+                      onTimeUpdate={handleTimeUpdate}
                     >
                       Your browser does not support the video tag.
                     </video>
@@ -166,7 +174,11 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                       ))}
                     </div>
                     <div className="flex-1 min-h-[300px]">
-                      <InterviewTabContent activeTab={activeTab} />
+                      <InterviewTabContent 
+                        activeTab={activeTab} 
+                        currentTime={currentTime}
+                        isPlaying={isPlaying}
+                      />
                     </div>
                   </div>
                 </div>
