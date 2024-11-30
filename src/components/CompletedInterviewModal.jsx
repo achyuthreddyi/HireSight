@@ -451,14 +451,77 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
 
                 {/* Detailed Feedback */}
                 <div className="bg-white rounded-xl border p-6">
-                  <h3 className="text-lg font-semibold mb-4">Detailed Feedback</h3>
-                  <div className="space-y-4">
-                    {Object.entries(analytics.detailedFeedback).map(([key, value]) => (
-                      <div key={key} className="space-y-2">
-                        <h4 className="font-medium capitalize">{key}</h4>
-                        <p className="text-sm text-gray-600">{value}</p>
+                  <h3 className="text-lg font-semibold mb-4">Feedback & Comments</h3>
+                  <div className="grid grid-cols-2 gap-6">
+                    {/* Left Side: Detailed Feedback */}
+                    <div className="space-y-4">
+                      <h4 className="font-medium text-gray-700">Detailed Assessment</h4>
+                      {Object.entries(analytics.detailedFeedback).map(([key, value]) => (
+                        <div key={key} className="space-y-2 p-3 bg-gray-50 rounded-lg">
+                          <h5 className="font-medium capitalize text-blue-600">{key}</h5>
+                          <p className="text-sm text-gray-600">{value}</p>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Right Side: Comment Box */}
+                    <div className="border-l pl-6">
+                      <div className="flex flex-col h-full">
+                        <h4 className="font-medium text-gray-700 mb-4">Add Comments</h4>
+                        
+                        {/* Comment Type Selection */}
+                        <div className="mb-4">
+                          <label className="text-sm text-gray-600 mb-2 block">Comment Type</label>
+                          <select 
+                            className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            defaultValue="technical"
+                          >
+                            <option value="technical">Technical Feedback</option>
+                            <option value="behavioral">Behavioral Assessment</option>
+                            <option value="cultural">Cultural Fit</option>
+                            <option value="general">General Comments</option>
+                          </select>
+                        </div>
+
+                        {/* Comment Box */}
+                        <div className="flex-1 mb-4">
+                          <label className="text-sm text-gray-600 mb-2 block">Your Comments</label>
+                          <textarea 
+                            className="w-full h-[150px] px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                            placeholder="Enter your feedback here..."
+                          />
+                        </div>
+
+                        {/* Rating */}
+                        <div className="mb-4">
+                          <label className="text-sm text-gray-600 mb-2 block">Rating</label>
+                          <div className="flex items-center space-x-2">
+                            {[1, 2, 3, 4, 5].map((rating) => (
+                              <button
+                                key={rating}
+                                className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-blue-500 hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors"
+                              >
+                                {rating}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Submit Button */}
+                        <div className="flex items-center space-x-3">
+                          <button
+                            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                          >
+                            Submit Feedback
+                          </button>
+                          <button
+                            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                          >
+                            Save Draft
+                          </button>
+                        </div>
                       </div>
-                    ))}
+                    </div>
                   </div>
                 </div>
               </div>
