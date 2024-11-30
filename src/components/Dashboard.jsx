@@ -28,6 +28,7 @@ import DashboardContent from './DashboardContent';
 import Placeholder from './Placeholder';
 import TeamContent from './TeamContent';
 import InterviewsDetails from './InterviewsDetails';
+import CandidatesDashboard from './CandidatesDashboard';
 
 const NAVIGATION_ITEMS = [
   {
@@ -69,6 +70,11 @@ const NAVIGATION_ITEMS = [
     id: 'interviews',
     label: 'Interviewers Dashboard',
     icon: BarChart2
+  },
+  {
+    id: 'candidatesDashboard',
+    label: 'Candidates Dashboard',
+    icon: Users
   }
 ];
 
@@ -535,6 +541,8 @@ const Dashboard = () => {
                 <TeamContent />
               ) : activeNavItem === 'interviews' ? (
                 <InterviewsDetails />
+              ) : activeNavItem === 'candidatesDashboard' ? (
+                <CandidatesDashboard />
               ) : (
                 // Position-specific Candidates View
                 <div className="bg-white rounded-lg shadow-sm border">
