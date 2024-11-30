@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
-import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 import InterviewTabContent from './InterviewTabContent';
+import { MOCK_DATA } from '../data/mockData';
 
 const CompletedInterviewModal = ({ interview, onClose }) => {
   const { roundType, round } = interview;
   const [activeTab, setActiveTab] = useState('Overview');
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const videoRef = useRef(null);
+  const [selectedVideo] = useState(() => {
+    const videos = [MOCK_DATA.interviewVideos.video1, MOCK_DATA.interviewVideos.video2];
+    return videos[Math.floor(Math.random() * videos.length)];
+  });
 
   // Mock analytics data (in real app, this would come from your backend)
   const analytics = {
@@ -25,6 +33,36 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
       communication: 'Articulates thoughts clearly and maintains professional communication throughout the interview.',
       problemSolving: 'Approaches problems methodically, asks clarifying questions, and considers edge cases.',
       attitude: 'Shows enthusiasm for learning and handles feedback constructively.'
+    }
+  };
+
+  const handlePlayPause = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause();
+      } else {
+        videoRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  const handleMuteToggle = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const handleVideoError = () => {
+    if (videoRef.current) {
+      const currentVideo = videoRef.current.src;
+      const videos = Object.values(MOCK_DATA.interviewVideos);
+      const alternateVideo = videos.find(v => v !== currentVideo);
+      if (alternateVideo) {
+        videoRef.current.src = alternateVideo;
+        videoRef.current.load();
+      }
     }
   };
 
@@ -54,19 +92,60 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                 {/* Left Column: Video + Tabs */}
                 <div className="lg:w-1/2 flex flex-col">
                   {/* Video Player */}
-                  <div className="aspect-video bg-gray-100 rounded-lg overflow-hidden">
-                    <div className="w-full h-full bg-gray-800 relative group">
-                      <img 
-                        src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2"
-                        alt="Interview Recording"
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-100">
-                          <Play className="w-8 h-8 text-gray-900 ml-1" />
+                  <div className="h-[30vh] bg-gray-900 rounded-lg overflow-hidden relative group">
+                    <video
+                      ref={videoRef}
+                      className="w-full h-full object-cover"
+                      src={selectedVideo}
+                      onEnded={() => setIsPlaying(false)}
+                      onError={handleVideoError}
+                    >
+                      Your browser does not support the video tag.
+                    </video>
+
+                    {/* Video Controls - Show on hover */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end">
+                      <div className="w-full p-4 flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <button
+                            onClick={handlePlayPause}
+                            className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                          >
+                            {isPlaying ? (
+                              <Pause className="w-6 h-6 text-white" />
+                            ) : (
+                              <Play className="w-6 h-6 text-white ml-1" />
+                            )}
+                          </button>
+                          <div className="text-white text-sm">
+                            Video {selectedVideo.includes('video1') ? '1' : '2'}
+                          </div>
                         </div>
+
+                        <button
+                          onClick={handleMuteToggle}
+                          className="p-2 bg-white/20 backdrop-blur-sm rounded-full hover:bg-white/30 transition-colors"
+                        >
+                          {isMuted ? (
+                            <VolumeX className="w-6 h-6 text-white" />
+                          ) : (
+                            <Volume2 className="w-6 h-6 text-white" />
+                          )}
+                        </button>
                       </div>
                     </div>
+
+                    {/* Play Button Overlay - Show when not playing */}
+                    {!isPlaying && (
+                      <div 
+                        className="absolute inset-0 flex items-center justify-center bg-black/40 cursor-pointer"
+                        onClick={handlePlayPause}
+                      >
+                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-white/30 transition-colors">
+                          <Play className="w-8 h-8 text-white ml-1" />
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* Tabs Section */}

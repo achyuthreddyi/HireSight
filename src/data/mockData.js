@@ -287,7 +287,12 @@ export const MOCK_DATA = {
       department: 'Engineering',
       interviewPanels: ['Backend Systems', 'Performance']
     }
-  ]
+  ],
+
+  interviewVideos: {
+    video1: '/videos/video1.mp4',
+    video2: '/videos/video2.mp4'
+  }
 };
 
 // Generate candidates for each job with a more realistic distribution
