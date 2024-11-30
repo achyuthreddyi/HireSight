@@ -20,6 +20,9 @@ const CreatePosition = () => {
 
   const [notification, setNotification] = useState(false);
 
+  // Add new state for platform notifications
+  const [platformNotification, setPlatformNotification] = useState(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Here you would typically make an API call to save the job
@@ -53,10 +56,113 @@ const CreatePosition = () => {
     }));
   };
 
+  // Add a function to check if all required fields are filled
+  const isFormValid = () => {
+    return (
+      formData.title.trim() !== '' &&
+      formData.department !== '' &&
+      formData.openings !== '' &&
+      formData.experience.trim() !== '' &&
+      formData.location.trim() !== '' &&
+      formData.requiredSkills.trim() !== '' &&
+      formData.description.trim() !== '' &&
+      formData.responsibilities.trim() !== '' &&
+      formData.qualifications.trim() !== ''
+    );
+  };
+
+  // Update the handlePublish function
+  const handlePublish = (platform) => {
+    if (!isFormValid()) {
+      setPlatformNotification('Please fill all required fields before publishing');
+      setTimeout(() => setPlatformNotification(null), 3000);
+      return;
+    }
+    setPlatformNotification(`Job successfully published to ${platform}!`);
+    setTimeout(() => setPlatformNotification(null), 3000);
+  };
+
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h2 className="text-lg font-semibold mb-6">Create New Position</h2>
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-lg font-semibold">Create New Position</h2>
+          
+          {/* Publishing Buttons */}
+          <div className="flex items-center space-x-4">
+            <button
+              type="button"
+              onClick={() => handlePublish('LinkedIn')}
+              disabled={!isFormValid()}
+              className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+                isFormValid()
+                  ? 'hover:bg-gray-50'
+                  : 'opacity-50 cursor-not-allowed bg-gray-50'
+              }`}
+            >
+              <img 
+                src="https://cdn-icons-png.flaticon.com/512/174/174857.png" 
+                alt="LinkedIn" 
+                className="w-5 h-5"
+              />
+              <span className="text-sm font-medium">LinkedIn</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handlePublish('Instahyre')}
+              disabled={!isFormValid()}
+              className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+                isFormValid()
+                  ? 'hover:bg-gray-50'
+                  : 'opacity-50 cursor-not-allowed bg-gray-50'
+              }`}
+            >
+              <img 
+                src="https://instahyre.com/favicon.ico" 
+                alt="Instahyre" 
+                className="w-5 h-5"
+              />
+              <span className="text-sm font-medium">Instahyre</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handlePublish('Naukri')}
+              disabled={!isFormValid()}
+              className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+                isFormValid()
+                  ? 'hover:bg-gray-50'
+                  : 'opacity-50 cursor-not-allowed bg-gray-50'
+              }`}
+            >
+              <img 
+                src="https://static.naukimg.com/s/4/100/i/naukri_Logo.png" 
+                alt="Naukri" 
+                className="w-5 h-5"
+              />
+              <span className="text-sm font-medium">Naukri</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => handlePublish('Indeed')}
+              disabled={!isFormValid()}
+              className={`flex items-center space-x-2 px-4 py-2 border rounded-lg transition-colors ${
+                isFormValid()
+                  ? 'hover:bg-gray-50'
+                  : 'opacity-50 cursor-not-allowed bg-gray-50'
+              }`}
+            >
+              <img 
+                src="https://www.indeed.com/favicon.ico" 
+                alt="Indeed" 
+                className="w-5 h-5"
+              />
+              <span className="text-sm font-medium">Indeed</span>
+            </button>
+          </div>
+        </div>
         
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Basic Information */}
@@ -290,6 +396,14 @@ const CreatePosition = () => {
         <div className="fixed bottom-4 right-4 bg-green-100 border border-green-200 text-green-700 px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2">
           <Check className="w-5 h-5" />
           <span>Job position created successfully!</span>
+        </div>
+      )}
+
+      {/* Platform Publishing Notification */}
+      {platformNotification && (
+        <div className="fixed bottom-4 right-4 bg-blue-100 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg shadow-lg flex items-center space-x-2">
+          <Check className="w-5 h-5" />
+          <span>{platformNotification}</span>
         </div>
       )}
     </div>
