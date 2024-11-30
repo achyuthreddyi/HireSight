@@ -306,7 +306,7 @@ const Dashboard = () => {
               <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
                 <User className="w-5 h-5 text-blue-600" />
               </div>
-              <span className="text-sm font-medium">Sarah Wilson</span>
+              <span className="text-sm font-medium">Narendra Modi</span>
             </div>
             <LogOut className="w-5 h-5 cursor-pointer text-gray-500 hover:text-gray-700" />
           </div>

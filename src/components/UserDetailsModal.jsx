@@ -5,15 +5,15 @@ import CompletedInterviewModal from './CompletedInterviewModal';
 import MOCK_DATA from '../data/mockData';
 
 const TABS = [
+  { id: 'User Details', label: 'User Details' },
   { id: 'rounds', label: 'Interview Rounds' },
   { id: 'conversation', label: 'Conversation' },
   { id: 'schedule', label: 'Schedule Interview' },
-  { id: 'User Details', label: 'User Details' },
   { id: 'Documents', label: 'Documents' }
 ];
 
 const UserDetailsModal = ({ user, onClose }) => {
-  const [activeTab, setActiveTab] = useState('rounds');
+  const [activeTab, setActiveTab] = useState('User Details');
   const [showInterviewModal, setShowInterviewModal] = useState(false);
   const [selectedInterview, setSelectedInterview] = useState(null);
   const [selectedInterviewer, setSelectedInterviewer] = useState(null);
