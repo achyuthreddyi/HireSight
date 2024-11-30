@@ -292,7 +292,170 @@ export const MOCK_DATA = {
   interviewVideos: {
     video1: '/videos/video1.mp4',
     video2: '/videos/video2.mp4'
-  }
+  },
+
+  screeningCandidates: [
+    {
+      id: 1,
+      name: 'Rajesh Kumar',
+      email: 'rajesh.kumar@email.com',
+      role: 'Senior Frontend Developer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'hire'
+    },
+    {
+      id: 2,
+      name: 'Priya Sharma',
+      email: 'priya.sharma@email.com',
+      role: 'Product Manager',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'upcoming',
+      type: 'reminder',
+      recommendation: 'strong hire'
+    },
+    {
+      id: 3,
+      name: 'Amit Patel',
+      email: 'amit.patel@email.com',
+      role: 'DevOps Engineer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'rejected',
+      type: 'feedback',
+      recommendation: 'rejected'
+    },
+    {
+      id: 4,
+      name: 'Sunita Verma',
+      email: 'sunita.verma@email.com',
+      role: 'UI/UX Designer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'try'
+    },
+    {
+      id: 5,
+      name: 'Arjun Mehta',
+      email: 'arjun.mehta@email.com',
+      role: 'Backend Developer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'strong hire'
+    },
+    {
+      id: 6,
+      name: 'Kavita Reddy',
+      email: 'kavita.reddy@email.com',
+      role: 'Data Scientist',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'upcoming',
+      type: 'reminder',
+      recommendation: 'hire'
+    },
+    {
+      id: 7,
+      name: 'Vikram Singh',
+      email: 'vikram.singh@email.com',
+      role: 'Full Stack Developer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'rejected',
+      type: 'feedback',
+      recommendation: 'rejected'
+    },
+    {
+      id: 8,
+      name: 'Neha Gupta',
+      email: 'neha.gupta@email.com',
+      role: 'System Architect',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'try'
+    },
+    {
+      id: 9,
+      name: 'Rahul Verma',
+      email: 'rahul.verma@email.com',
+      role: 'QA Engineer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'upcoming',
+      type: 'reminder',
+      recommendation: 'hire'
+    },
+    {
+      id: 10,
+      name: 'Ananya Sharma',
+      email: 'ananya.sharma@email.com',
+      role: 'Mobile Developer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'strong hire'
+    },
+    {
+      id: 11,
+      name: 'Karthik Iyer',
+      email: 'karthik.iyer@email.com',
+      role: 'Senior Frontend Developer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'rejected',
+      type: 'feedback',
+      recommendation: 'rejected'
+    },
+    {
+      id: 12,
+      name: 'Pooja Desai',
+      email: 'pooja.desai@email.com',
+      role: 'Product Manager',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'try'
+    },
+    {
+      id: 13,
+      name: 'Aditya Kumar',
+      email: 'aditya.kumar@email.com',
+      role: 'DevOps Engineer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'upcoming',
+      type: 'reminder',
+      recommendation: 'hire'
+    },
+    {
+      id: 14,
+      name: 'Meera Nair',
+      email: 'meera.nair@email.com',
+      role: 'UI/UX Designer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'strong hire'
+    },
+    {
+      id: 15,
+      name: 'Rohan Malhotra',
+      email: 'rohan.malhotra@email.com',
+      role: 'Backend Developer',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'rejected',
+      type: 'feedback',
+      recommendation: 'rejected'
+    },
+    {
+      id: 50,
+      name: 'Zara Khan',
+      email: 'zara.khan@email.com',
+      role: 'Data Scientist',
+      score: Math.floor(Math.random() * 100) + 1,
+      nextSteps: 'scheduled',
+      type: 'profiling',
+      recommendation: 'hire'
+    }
+  ]
 };
 
 // Generate candidates for each job with a more realistic distribution
