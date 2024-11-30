@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { X, Star, CheckCircle, XCircle, Clock, MessageCircle, ChevronRight, BarChart, Play, Pause, Volume2, VolumeX, ThumbsUp, ThumbsDown, Briefcase, User as UserIcon, ArrowRight } from 'lucide-react';
 import InterviewTabContent from './InterviewTabContent';
 import { MOCK_DATA } from '../data/mockData';
 
@@ -73,6 +73,44 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
     }
   };
 
+  const generateSkillScores = () => ({
+    hardSkills: {
+      'System Design': Math.floor(Math.random() * 20) + 80, // 80-100
+      'Data Structures': Math.floor(Math.random() * 15) + 80,
+      'Algorithms': Math.floor(Math.random() * 15) + 80,
+      'Problem Solving': Math.floor(Math.random() * 15) + 80,
+      'Coding': Math.floor(Math.random() * 15) + 80,
+    },
+    softSkills: {
+      'Communication': Math.floor(Math.random() * 15) + 80,
+      'Leadership': Math.floor(Math.random() * 20) + 75,
+      'Team Collaboration': Math.floor(Math.random() * 15) + 80,
+      'Adaptability': Math.floor(Math.random() * 20) + 75,
+    }
+  });
+
+  const getRecommendationDetails = (confidence) => {
+    if (confidence >= 75) {
+      return {
+        status: 'Strong Hire',
+        icon: <ThumbsUp className="w-5 h-5" />,
+        colors: 'bg-green-100 text-green-700'
+      };
+    } else if (confidence >= 50) {
+      return {
+        status: 'Consider Other Role',
+        icon: <ArrowRight className="w-5 h-5" />,
+        colors: 'bg-yellow-100 text-yellow-700'
+      };
+    } else {
+      return {
+        status: 'Do Not Hire',
+        icon: <ThumbsDown className="w-5 h-5" />,
+        colors: 'bg-red-100 text-red-700'
+      };
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-[60] overflow-hidden">
       <div className="h-full flex items-center justify-center p-4">
@@ -94,7 +132,7 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
           {/* Main Content - Scrollable */}
           <div className="flex-1 overflow-y-auto">
             <div className="p-6 space-y-6">
-              {/* Top Section: Video + Stats */}
+              {/* First Row: Video + Stats */}
               <div className="flex flex-col lg:flex-row gap-6">
                 {/* Left Column: Video + Tabs */}
                 <div className="lg:w-1/2 flex flex-col">
@@ -183,9 +221,94 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                   </div>
                 </div>
 
-                {/* Right Column: Quick Stats */}
+                {/* Right Column: Interview Details and Skills */}
                 <div className="lg:w-1/2">
-                  <div className="grid grid-cols-2 gap-4">
+                  {/* Interview Details Card */}
+                  <div className="bg-white rounded-xl border p-6 mb-6">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="flex items-center space-x-2 mb-2">
+                          <Briefcase className="w-5 h-5 text-gray-500" />
+                          <span className="font-medium text-gray-900">Senior Frontend Developer</span>
+                        </div>
+                        <div className="flex items-center space-x-2 text-gray-600">
+                          <UserIcon className="w-4 h-4" />
+                          <span>John Smith</span>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end">
+                        {(() => {
+                          const confidence = Math.floor(Math.random() * 40) + 40; // Random between 40-80
+                          const recommendation = getRecommendationDetails(confidence);
+                          
+                          return (
+                            <>
+                              <div className={`flex items-center space-x-2 px-3 py-1.5 rounded-full ${recommendation.colors}`}>
+                                {recommendation.icon}
+                                <span className="font-medium">{recommendation.status}</span>
+                              </div>
+                              <div className="mt-2 text-sm text-gray-500">
+                                Confidence: {confidence}%
+                              </div>
+                            </>
+                          );
+                        })()}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Skills Assessment */}
+                  <div className="space-y-6">
+                    {/* Hard Skills */}
+                    <div className="bg-blue-50 rounded-xl p-4">
+                      <h3 className="font-semibold mb-4">Technical Skills Assessment</h3>
+                      <div className="space-y-3">
+                        {Object.entries(generateSkillScores().hardSkills).map(([skill, score]) => (
+                          <div key={skill}>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span>{skill}</span>
+                              <span className="font-medium">{score}%</span>
+                            </div>
+                            <div className="h-2 bg-blue-100 rounded-full">
+                              <div 
+                                className="h-full bg-blue-500 rounded-full"
+                                style={{ width: `${score}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Soft Skills */}
+                    <div className="bg-purple-50 rounded-xl p-4">
+                      <h3 className="font-semibold mb-4">Behavioral Skills Assessment</h3>
+                      <div className="space-y-3">
+                        {Object.entries(generateSkillScores().softSkills).map(([skill, score]) => (
+                          <div key={skill}>
+                            <div className="flex justify-between text-sm mb-1">
+                              <span>{skill}</span>
+                              <span className="font-medium">{score}%</span>
+                            </div>
+                            <div className="h-2 bg-purple-100 rounded-full">
+                              <div 
+                                className="h-full bg-purple-500 rounded-full"
+                                style={{ width: `${score}%` }}
+                              />
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Update the detailed analytics section */}
+              <div className="space-y-8">
+                {/* Quick Stats Grid - Full Width */}
+                <div className="bg-white rounded-xl border p-6">
+                  <div className="grid grid-cols-4 gap-6">
                     <div className="bg-blue-50 rounded-xl p-4">
                       <div className="text-sm text-blue-600 font-medium">Duration</div>
                       <div className="text-2xl font-bold text-blue-700 mt-1">{analytics.duration}</div>
@@ -204,28 +327,8 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                     </div>
                   </div>
                 </div>
-              </div>
 
-              {/* Detailed Analytics Section */}
-              <div className="space-y-6">
-                {/* Top Stats */}
-                <div className="grid grid-cols-4 gap-6">
-                  {[
-                    { label: 'Technical Score', value: analytics.technicalScore, color: 'blue' },
-                    { label: 'Communication', value: analytics.communicationScore, color: 'green' },
-                    { label: 'Problem Solving', value: analytics.problemSolving, color: 'purple' },
-                    { label: 'Overall Rating', value: analytics.interviewerRating, color: 'yellow', isRating: true }
-                  ].map((stat, index) => (
-                    <div key={index} className={`bg-${stat.color}-50 rounded-xl p-6 text-center`}>
-                      <div className="text-sm text-gray-600">{stat.label}</div>
-                      <div className={`text-3xl font-bold text-${stat.color}-600 mt-2`}>
-                        {stat.isRating ? `${stat.value}/5` : `${stat.value}%`}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Detailed Scores */}
+                {/* Performance Overview */}
                 <div className="grid grid-cols-2 gap-8">
                   {/* Left Column */}
                   <div className="space-y-6">
@@ -294,28 +397,28 @@ const CompletedInterviewModal = ({ interview, onClose }) => {
                   </div>
                 </div>
 
-                {/* Interview Stats */}
-                <div className="bg-gray-50 rounded-xl p-6">
-                  <div className="grid grid-cols-3 gap-6">
-                    <div className="flex items-center space-x-3">
-                      <Clock className="w-6 h-6 text-gray-400" />
+                {/* Interview Summary Stats */}
+                <div className="bg-white rounded-xl border p-6">
+                  <div className="grid grid-cols-3 gap-8">
+                    <div className="flex items-center space-x-4">
+                      <Clock className="w-8 h-8 text-gray-400" />
                       <div>
-                        <div className="text-sm text-gray-600">Duration</div>
-                        <div className="font-medium">{analytics.duration}</div>
+                        <div className="text-sm text-gray-500">Duration</div>
+                        <div className="text-lg font-medium mt-1">{analytics.duration}</div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <MessageCircle className="w-6 h-6 text-gray-400" />
+                    <div className="flex items-center space-x-4">
+                      <MessageCircle className="w-8 h-8 text-gray-400" />
                       <div>
-                        <div className="text-sm text-gray-600">Questions Asked</div>
-                        <div className="font-medium">{analytics.questionsAsked}</div>
+                        <div className="text-sm text-gray-500">Questions Asked</div>
+                        <div className="text-lg font-medium mt-1">{analytics.questionsAsked}</div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3">
-                      <BarChart className="w-6 h-6 text-gray-400" />
+                    <div className="flex items-center space-x-4">
+                      <BarChart className="w-8 h-8 text-gray-400" />
                       <div>
-                        <div className="text-sm text-gray-600">Overall Performance</div>
-                        <div className="font-medium">Above Average</div>
+                        <div className="text-sm text-gray-500">Overall Performance</div>
+                        <div className="text-lg font-medium mt-1">Above Average</div>
                       </div>
                     </div>
                   </div>
